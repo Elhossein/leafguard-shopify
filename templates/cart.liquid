@@ -1,0 +1,12 @@
+{% render 'lg-header' %}
+<div style="max-width:600px;margin:80px auto;padding:0 24px;text-align:center">
+  <h1 style="font-size:2rem;font-weight:900;color:#0a1f0a;margin-bottom:16px">Your Cart</h1>
+  <a href="/collections/all" style="color:#0d2e0d;font-weight:700;text-decoration:underline">← Continue Shopping</a>
+  <div style="margin-top:40px">
+    {% if cart.item_count == 0 %}
+      <p style="color:#888;font-size:1rem">Your cart is empty.</p>
+    {% else %}
+      <a href="/checkout" style="display:block;background:#0d2e0d;color:#fff;padding:16px 24px;border-radius:12px;font-weight:800;font-size:1rem;margin-top:24px">Proceed to Checkout</a>
+    {% endif %}
+  </div>
+</div>

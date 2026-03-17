@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "lg-header":       { "type": "lg-header",          "settings": {} },
+    "lg-product-hero": { "type": "lg-product-hero",    "settings": {} }
+  },
+  "order": ["lg-header", "lg-product-hero"]
+}

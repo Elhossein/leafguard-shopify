@@ -1,0 +1,967 @@
+{%- assign lg = product -%}
+{%- assign first_variant = lg.selected_or_first_available_variant -%}
+
+{%- assign lg_asset_imgs = 'lg-main.jpg,lg-lifestyle-1.jpg,lg-lifestyle-2.jpg,lg-lifestyle-3.jpg,lg-lifestyle-4.jpg,lg-lifestyle-5.jpg,lg-lifestyle-6.jpg,lg-lifestyle-7.jpg,lg-lifestyle-8.jpg,lg-lifestyle-9.jpg' | split: ',' -%}
+
+<!-- ══ ANNOUNCEMENT BAR ══ -->
+<div class="lg-announce" aria-hidden="true">
+  <div class="lg-announce-track">
+    {%- for i in (1..12) -%}
+      <span>🌿 FREE SHIPPING ON ALL ORDERS</span>
+      <span class="lg-announce-sep">★</span>
+      <span>90-DAY RETURNS</span>
+      <span class="lg-announce-sep">★</span>
+      <span>TRUSTED BY 10,000+ GARDENERS</span>
+      <span class="lg-announce-sep">★</span>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- ══ PRODUCT HERO ══ -->
+<section class="lg-hero">
+  <div class="lg-hero-layout">
+
+    <!-- LEFT: Gallery -->
+    <div class="lg-gallery">
+      <div class="lg-gallery-main" id="lg-gallery-main">
+        {%- if lg.images.size > 0 -%}
+          <img id="lg-main-img" src="{{ lg.featured_image | image_url: width: 900 }}" alt="{{ lg.title }}" class="lg-main-img" />
+        {%- else -%}
+          <img id="lg-main-img" src="{{ 'lg-main.jpg' | asset_url }}" alt="{{ lg.title }}" class="lg-main-img" />
+        {%- endif -%}
+        <!-- Zoom hint -->
+        <div class="lg-zoom-badge">🔍 Tap to zoom</div>
+      </div>
+      <div class="lg-gallery-thumbs" id="lg-gallery-thumbs">
+        {%- if lg.images.size > 0 -%}
+          {%- for img in lg.images -%}
+            <button type="button" class="lg-thumb{% if forloop.first %} lg-thumb--active{% endif %}"
+              data-src="{{ img | image_url: width: 900 }}" aria-label="View image {{ forloop.index }}">
+              <img src="{{ img | image_url: width: 120 }}" alt="{{ lg.title }}" loading="lazy" />
+            </button>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for img_name in lg_asset_imgs -%}
+            <button type="button" class="lg-thumb{% if forloop.first %} lg-thumb--active{% endif %}"
+              data-src="{{ img_name | asset_url }}" aria-label="View image {{ forloop.index }}">
+              <img src="{{ img_name | asset_url }}" alt="View {{ forloop.index }}" loading="lazy" />
+            </button>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- RIGHT: Form -->
+    <div class="lg-form">
+
+      <!-- Sold badge -->
+      <div class="lg-social-proof">
+        <span class="lg-social-dot"></span>
+        <span>🔥 <strong>48</strong> sold in the last 24 hours</span>
+      </div>
+
+      <!-- Stars -->
+      <div class="lg-stars-row">
+        <span class="lg-stars">★★★★★</span>
+        <span class="lg-review-count">4.5 · 2,917 verified reviews</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="lg-title">{{ lg.title }}</h1>
+
+      <!-- Short desc -->
+      <p class="lg-tagline">The last leaf tool you'll ever need. Clear your yard <em>10× faster</em> — no bending, no raking, no mess.</p>
+
+      <!-- Price -->
+      <div class="lg-price-row">
+        <span class="lg-price" id="lg-price">{{ first_variant.price | money }}</span>
+        <s class="lg-compare" id="lg-compare"{% unless first_variant.compare_at_price > first_variant.price %} style="display:none"{% endunless %}>
+          {{- first_variant.compare_at_price | money -}}
+        </s>
+        {%- if first_variant.compare_at_price > first_variant.price -%}
+          {%- assign save_pct = first_variant.compare_at_price | minus: first_variant.price | times: 100 | divided_by: first_variant.compare_at_price -%}
+          <span class="lg-save-badge" id="lg-save-badge">SAVE {{ save_pct }}%</span>
+        {%- else -%}
+          <span class="lg-save-badge" id="lg-save-badge" style="display:none"></span>
+        {%- endif -%}
+        <span class="lg-per-unit" id="lg-per-unit"></span>
+      </div>
+
+      <!-- Variant data -->
+      <script id="lg-variant-data" type="application/json">
+        [
+          {%- for v in lg.variants -%}
+            {
+              "id":               {{ v.id }},
+              "option1":          {{ v.option1 | json }},
+              "price":            {{ v.price }},
+              "compare_at_price": {{ v.compare_at_price | default: 0 }},
+              "available":        {{ v.available }}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      </script>
+
+      <!-- Buy More Save More -->
+      <div class="lg-bmsm-head">
+        <span class="lg-bmsm-line"></span>
+        <span class="lg-bmsm-text">Buy More &amp; Save</span>
+        <span class="lg-bmsm-line"></span>
+      </div>
+
+      <div class="lg-bundle-picker">
+
+        <!-- 1 Pair -->
+        <div class="lg-bundle-wrap">
+          <label class="lg-bundle-row lg-bundle-row--active">
+            <input type="radio" name="lg-bundle" class="lg-bundle-radio lg-vh" value="1" checked data-qty="1" data-discount="0" />
+            <div class="lg-bundle-top">
+              <div class="lg-radio-dot"></div>
+              <div class="lg-bundle-info">
+                <span class="lg-bundle-name">1 Pair</span>
+                <span class="lg-bundle-sub">Regular price</span>
+              </div>
+              <div class="lg-bundle-pricing">
+                <span class="lg-bundle-total" data-qty="1" data-discount="0"></span>
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <!-- 2 Pairs — Save 10% -->
+        <div class="lg-bundle-wrap">
+          <label class="lg-bundle-row">
+            <input type="radio" name="lg-bundle" class="lg-bundle-radio lg-vh" value="2" data-qty="2" data-discount="10" />
+            <div class="lg-bundle-top">
+              <div class="lg-radio-dot"></div>
+              <div class="lg-bundle-info">
+                <span class="lg-bundle-name">2 Pairs</span>
+                <span class="lg-bundle-sub lg-bundle-sub--deal">💰 Save 10% — Great for a couple</span>
+              </div>
+              <div class="lg-bundle-pricing">
+                <span class="lg-bundle-total" data-qty="2" data-discount="10"></span>
+                <s class="lg-bundle-was" data-qty="2"></s>
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <!-- 4 Pairs — Save 25% — Most Popular -->
+        <div class="lg-bundle-wrap lg-bundle-wrap--popular">
+          <div class="lg-popular-tag">🌟 MOST POPULAR</div>
+          <label class="lg-bundle-row">
+            <input type="radio" name="lg-bundle" class="lg-bundle-radio lg-vh" value="4" data-qty="4" data-discount="25" />
+            <div class="lg-bundle-top">
+              <div class="lg-radio-dot"></div>
+              <div class="lg-bundle-info">
+                <span class="lg-bundle-name">4 Pairs</span>
+                <span class="lg-bundle-sub lg-bundle-sub--deal">🔥 Save 25% — Perfect for the whole family</span>
+              </div>
+              <div class="lg-bundle-pricing">
+                <span class="lg-bundle-total" data-qty="4" data-discount="25"></span>
+                <s class="lg-bundle-was" data-qty="4"></s>
+              </div>
+            </div>
+          </label>
+        </div>
+
+      </div><!-- /.lg-bundle-picker -->
+
+      <!-- Feature bullets -->
+      <ul class="lg-bullets">
+        <li><span class="lg-bullet-icon">🍂</span> Clears leaves <strong>10× faster</strong> than a traditional rake</li>
+        <li><span class="lg-bullet-icon">💪</span> V2.0 — thicker, reinforced plastic handles heavier loads</li>
+        <li><span class="lg-bullet-icon">🦺</span> Ergonomic comfort grip — zero hand fatigue</li>
+        <li><span class="lg-bullet-icon">📦</span> Stack &amp; store — wall peg hole for easy shed hanging</li>
+        <li><span class="lg-bullet-icon">✅</span> Fits all bag sizes — paper lawn bags, garbage bags</li>
+      </ul>
+
+      <!-- Trust row -->
+      <div class="lg-trust-row">
+        <div class="lg-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>Free Shipping</span>
+        </div>
+        <div class="lg-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <span>30-Day Guarantee</span>
+        </div>
+        <div class="lg-trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <span>Secure Checkout</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <button type="button" class="lg-cta-btn" id="lg-cta-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Buy Now — <span id="lg-cta-price"></span>
+      </button>
+
+      <p class="lg-shipping-note">🚚 Free shipping · Delivers to all US states in <strong>5–10 business days</strong></p>
+
+      <!-- Urgency timer -->
+      <div class="lg-urgency">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Deal ends in <strong id="lg-timer">23:47:12</strong> — only <strong>7 left</strong> at this price</span>
+      </div>
+
+      <!-- Collapsibles -->
+      <div class="lg-collapsibles">
+
+        <details class="lg-detail">
+          <summary class="lg-detail-summary">
+            <span class="lg-detail-icon">📦</span>
+            What's in the box
+            <svg class="lg-detail-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lg-detail-body">
+            <p>1 × Pair of MEKKAPRO Leaf Scoops V2.0 (2 pieces total) · Ergonomic comfort-grip handles · Reinforced heavy-duty plastic construction · Wall peg storage hole built-in.</p>
+          </div>
+        </details>
+
+        <details class="lg-detail">
+          <summary class="lg-detail-summary">
+            <span class="lg-detail-icon">⚙️</span>
+            How to use
+            <svg class="lg-detail-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lg-detail-body">
+            <p>Slip your hands into the ergonomic handles and walk across your lawn. Scoop leaves, grass clippings, twigs, and debris directly into a bag or pile in seconds. Works on wet or dry material. When done, stack the pair together and hang on a wall peg.</p>
+          </div>
+        </details>
+
+        <details class="lg-detail">
+          <summary class="lg-detail-summary">
+            <span class="lg-detail-icon">🛡️</span>
+            30-Day Guarantee
+            <svg class="lg-detail-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lg-detail-body">
+            <p>Not happy for any reason? We'll refund you in full within 30 days — no questions, no hassle. Just reach out to our support team.</p>
+          </div>
+        </details>
+
+        <details class="lg-detail">
+          <summary class="lg-detail-summary">
+            <span class="lg-detail-icon">🚚</span>
+            Shipping &amp; Delivery
+            <svg class="lg-detail-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="lg-detail-body">
+            <p>Free standard shipping on all US orders. Arrives in 5–10 business days. Orders placed before 2 PM EST are processed same day. Tracking provided by email.</p>
+          </div>
+        </details>
+
+      </div><!-- /.lg-collapsibles -->
+
+    </div><!-- /.lg-form -->
+  </div><!-- /.lg-hero-layout -->
+</section>
+
+<!-- ══ SOCIAL PROOF STRIP ══ -->
+<section class="lg-proof-strip">
+  <div class="lg-proof-track">
+    {%- for i in (1..8) -%}
+      <span>"Finally — a leaf tool that actually works!" — <strong>Mike T.</strong></span>
+      <span class="lg-proof-sep">★★★★★</span>
+      <span>"Cleared my whole yard in 20 min. Incredible." — <strong>Sarah K.</strong></span>
+      <span class="lg-proof-sep">★★★★★</span>
+      <span>"Bought 3 pairs — one for every family member!" — <strong>James R.</strong></span>
+      <span class="lg-proof-sep">★★★★★</span>
+    {%- endfor -%}
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="lg-how">
+  <div class="lg-section-inner">
+    <p class="lg-eyebrow">SIMPLE STEPS</p>
+    <h2 class="lg-section-title">Clear Your Yard in 3 Easy Steps</h2>
+    <div class="lg-steps-grid">
+      <div class="lg-step">
+        <div class="lg-step-num">01</div>
+        <img src="{{ 'lg-lifestyle-2.jpg' | asset_url }}" alt="Grip the handles" class="lg-step-img" loading="lazy" />
+        <h3 class="lg-step-title">Slip on &amp; Grip</h3>
+        <p class="lg-step-desc">Slide your hands into the ergonomic comfort-grip handles. They fit snug like a glove — no fatigue, no slipping.</p>
+      </div>
+      <div class="lg-step">
+        <div class="lg-step-num">02</div>
+        <img src="{{ 'lg-lifestyle-3.jpg' | asset_url }}" alt="Scoop leaves" class="lg-step-img" loading="lazy" />
+        <h3 class="lg-step-title">Scoop &amp; Gather</h3>
+        <p class="lg-step-desc">Walk through your lawn, scooping up leaves, grass, and debris into big piles. No bending — the scoops do all the work.</p>
+      </div>
+      <div class="lg-step">
+        <div class="lg-step-num">03</div>
+        <img src="{{ 'lg-lifestyle-4.jpg' | asset_url }}" alt="Drop into bag" class="lg-step-img" loading="lazy" />
+        <h3 class="lg-step-title">Drop &amp; Done</h3>
+        <p class="lg-step-desc">Walk over a bag, open the scoops, and drop everything in. Clean, fast, and effortless every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURE HIGHLIGHTS ══ -->
+<section class="lg-features">
+  <div class="lg-section-inner">
+    <p class="lg-eyebrow">WHY LEAFGUARD</p>
+    <h2 class="lg-section-title">Engineered for the Serious Gardener</h2>
+    <div class="lg-features-grid">
+      <div class="lg-feature-card">
+        <div class="lg-feature-icon">💪</div>
+        <h3>V2.0 Reinforced Plastic</h3>
+        <p>Thicker, heavier-duty construction than the original. Handles wet leaves, heavy grass clippings, and bulky debris without flexing.</p>
+      </div>
+      <div class="lg-feature-card">
+        <div class="lg-feature-icon">🦺</div>
+        <h3>Comfort Grip Handles</h3>
+        <p>Soft lining inside the handles reduces pressure on your palms. Garden for hours without the soreness of traditional rakes.</p>
+      </div>
+      <div class="lg-feature-card">
+        <div class="lg-feature-icon">📐</div>
+        <h3>Large Scoop Surface</h3>
+        <p>The generous scoop size means fewer trips back and forth. Move 3× more material per pass compared to a standard rake.</p>
+      </div>
+      <div class="lg-feature-card">
+        <div class="lg-feature-icon">🏠</div>
+        <h3>Compact Wall Storage</h3>
+        <p>Scoops stack together neatly and include a wall peg hole. No more tripping over tools — hang them in your shed in seconds.</p>
+      </div>
+      <div class="lg-feature-card">
+        <div class="lg-feature-icon">🌧️</div>
+        <h3>All-Weather Performance</h3>
+        <p>Works on wet or dry leaves, pine needles, grass clippings, or light fruit pick-up. Corrosion-resistant and easy to rinse clean.</p>
+      </div>
+      <div class="lg-feature-card">
+        <div class="lg-feature-icon">🎁</div>
+        <h3>The Perfect Garden Gift</h3>
+        <p>Already gifted to thousands of homeowners. Compact enough to wrap, practical enough to use every week. 5-star reviews year after year.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="lg-testimonials">
+  <div class="lg-section-inner">
+    <p class="lg-eyebrow">REAL REVIEWS</p>
+    <h2 class="lg-section-title">What Gardeners Are Saying</h2>
+    <div class="lg-reviews-grid">
+
+      <div class="lg-review-card">
+        <div class="lg-review-stars">★★★★★</div>
+        <p class="lg-review-text">"I have a huge oak tree and every fall my yard is buried in leaves. These scoops cut my cleanup time from 3 hours down to 45 minutes. I ordered 2 more pairs for my parents."</p>
+        <div class="lg-reviewer">
+          <div class="lg-reviewer-avatar">M</div>
+          <div>
+            <strong>Mike T.</strong>
+            <span>Verified Buyer · Dallas, TX</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg-review-card">
+        <div class="lg-review-stars">★★★★★</div>
+        <p class="lg-review-text">"My husband and I do yard work together now because it's actually fun. We each have a pair, we race each other clearing the leaves, and we're done in under 20 minutes. Love this product."</p>
+        <div class="lg-reviewer">
+          <div class="lg-reviewer-avatar">S</div>
+          <div>
+            <strong>Sarah K.</strong>
+            <span>Verified Buyer · Atlanta, GA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg-review-card">
+        <div class="lg-review-stars">★★★★★</div>
+        <p class="lg-review-text">"I'm 68 years old and my back can't handle raking anymore. These are a game changer. No bending at all — I just walk and scoop. Best garden purchase I've made in years."</p>
+        <div class="lg-reviewer">
+          <div class="lg-reviewer-avatar">J</div>
+          <div>
+            <strong>James R.</strong>
+            <span>Verified Buyer · Portland, OR</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg-review-card">
+        <div class="lg-review-stars">★★★★★</div>
+        <p class="lg-review-text">"The V2.0 is noticeably sturdier than the first version. I tried original scoops from another brand last year and they cracked. These haven't budged after two full fall seasons. Highly recommend."</p>
+        <div class="lg-reviewer">
+          <div class="lg-reviewer-avatar">L</div>
+          <div>
+            <strong>Linda M.</strong>
+            <span>Verified Buyer · Chicago, IL</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="lg-faq">
+  <div class="lg-faq-inner">
+    <p class="lg-eyebrow" style="text-align:center">GOT QUESTIONS?</p>
+    <h2 class="lg-section-title" style="text-align:center">Frequently Asked Questions</h2>
+    <div class="lg-faq-list">
+
+      <details class="lg-faq-item">
+        <summary class="lg-faq-q">
+          <span class="lg-faq-icon">🍂</span>
+          What can I pick up with these scoops?
+          <svg class="lg-faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p class="lg-faq-a">Autumn leaves, grass clippings, pine needles, light twigs, garden debris, and even small fruit like crabapples. Works great on any loose outdoor material.</p>
+      </details>
+
+      <details class="lg-faq-item">
+        <summary class="lg-faq-q">
+          <span class="lg-faq-icon">🌧️</span>
+          Do they work on wet leaves?
+          <svg class="lg-faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p class="lg-faq-a">Yes — the V2.0's reinforced plastic handles the extra weight of wet leaves without flexing or breaking. Just rinse clean with a hose when you're done.</p>
+      </details>
+
+      <details class="lg-faq-item">
+        <summary class="lg-faq-q">
+          <span class="lg-faq-icon">📏</span>
+          What size hands do they fit?
+          <svg class="lg-faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p class="lg-faq-a">The handles accommodate most adult hand sizes, from small to large. The comfort-grip lining keeps them secure whether your hands are smaller or larger.</p>
+      </details>
+
+      <details class="lg-faq-item">
+        <summary class="lg-faq-q">
+          <span class="lg-faq-icon">🎁</span>
+          Is this a good gift?
+          <svg class="lg-faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p class="lg-faq-a">Absolutely. It's one of the most gifted garden tools on the market — perfect for homeowners, parents, grandparents, or anyone with a yard. Practical and immediately useful every fall.</p>
+      </details>
+
+      <details class="lg-faq-item">
+        <summary class="lg-faq-q">
+          <span class="lg-faq-icon">🚚</span>
+          How long does shipping take?
+          <svg class="lg-faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p class="lg-faq-a">Free standard shipping to all US states. Estimated delivery is 5–10 business days. You'll receive a tracking email once your order ships.</p>
+      </details>
+
+      <details class="lg-faq-item">
+        <summary class="lg-faq-q">
+          <span class="lg-faq-icon">↩️</span>
+          What if I'm not satisfied?
+          <svg class="lg-faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <p class="lg-faq-a">We offer a 30-day no-questions money-back guarantee. If you're unhappy for any reason, contact our support team and we'll make it right immediately.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="lg-footer">
+  <div class="lg-footer-inner">
+    <div class="lg-footer-brand">
+      <img src="{{ 'leafguard-logo.png' | asset_url }}" alt="{{ shop.name }}" class="lg-footer-logo" />
+      <p>Clean yards. Happy homes.</p>
+    </div>
+    <div class="lg-footer-links">
+      <strong>Support</strong>
+      <a href="/pages/contact">Contact Us</a>
+      <a href="/pages/track-order">Track Order</a>
+      <a href="/pages/faq">FAQ</a>
+    </div>
+    <div class="lg-footer-links">
+      <strong>Policies</strong>
+      <a href="/policies/privacy-policy">Privacy Policy</a>
+      <a href="/policies/refund-policy">Refund Policy</a>
+      <a href="/policies/terms-of-service">Terms of Service</a>
+    </div>
+  </div>
+  <div class="lg-footer-bottom">
+    <p>© {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+    <div class="lg-footer-badges">
+      <span>🔒 SSL Secured</span>
+      <span>✅ Verified Store</span>
+      <span>🛡️ Buyer Protected</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ STICKY BUY BAR (mobile) ══ -->
+<div class="lg-sticky-bar" id="lg-sticky-bar">
+  <div class="lg-sticky-info">
+    <strong>{{ lg.title | truncate: 40 }}</strong>
+    <span id="lg-sticky-price"></span>
+  </div>
+  <button class="lg-sticky-cta" id="lg-sticky-btn">Buy Now</button>
+</div>
+
+<script>
+(function () {
+  var variants  = JSON.parse(document.getElementById('lg-variant-data').textContent);
+  var mainImg   = document.getElementById('lg-main-img');
+  var ctaBtn    = document.getElementById('lg-cta-btn');
+  var stickyBtn = document.getElementById('lg-sticky-btn');
+  var ctaPrice  = document.getElementById('lg-cta-price');
+  var priceEl   = document.getElementById('lg-price');
+  var compareEl = document.getElementById('lg-compare');
+  var saveBadge = document.getElementById('lg-save-badge');
+  var perUnit   = document.getElementById('lg-per-unit');
+  var stickyPrice = document.getElementById('lg-sticky-price');
+  var stickyBar = document.getElementById('lg-sticky-bar');
+
+  function fmt(cents) { return '$' + (cents / 100).toFixed(2); }
+  function getActiveRadio() { return document.querySelector('.lg-bundle-radio:checked'); }
+  function getActiveQty()  { var r = getActiveRadio(); return r ? parseInt(r.dataset.qty, 10) : 1; }
+  function getActiveDisc() { var r = getActiveRadio(); return r ? parseInt(r.dataset.discount || '0', 10) : 0; }
+
+  function updateBundlePrices() {
+    var base = variants[0]; if (!base) return;
+    document.querySelectorAll('.lg-bundle-total[data-qty]').forEach(function (el) {
+      var qty  = parseInt(el.dataset.qty, 10);
+      var disc = parseInt(el.dataset.discount || '0', 10);
+      el.textContent = fmt(Math.round(base.price * qty * (1 - disc / 100)));
+    });
+    document.querySelectorAll('.lg-bundle-was[data-qty]').forEach(function (el) {
+      el.textContent = fmt(base.price * parseInt(el.dataset.qty, 10));
+    });
+  }
+
+  function updateUI() {
+    var qty  = getActiveQty();
+    var disc = getActiveDisc();
+    var base = variants[0]; if (!base) return;
+    var total = Math.round(base.price * qty * (1 - disc / 100));
+    var orig  = base.price * qty;
+    if (ctaPrice)   ctaPrice.textContent  = fmt(total);
+    if (priceEl)    priceEl.textContent   = fmt(total);
+    if (stickyPrice) stickyPrice.textContent = fmt(total);
+    if (compareEl) {
+      compareEl.textContent = disc > 0 ? fmt(orig) : (base.compare_at_price > 0 ? fmt(base.compare_at_price) : '');
+      compareEl.style.display = (disc > 0 || base.compare_at_price > base.price) ? 'inline' : 'none';
+    }
+    if (saveBadge) {
+      if (disc > 0) {
+        saveBadge.textContent = 'SAVE ' + disc + '%';
+        saveBadge.style.display = 'inline-flex';
+      } else if (base.compare_at_price > base.price) {
+        var pct = Math.round((base.compare_at_price - base.price) * 100 / base.compare_at_price);
+        saveBadge.textContent = 'SAVE ' + pct + '%';
+        saveBadge.style.display = 'inline-flex';
+      } else {
+        saveBadge.style.display = 'none';
+      }
+    }
+    if (perUnit && qty > 1) {
+      perUnit.textContent = '(' + fmt(Math.round(total / qty)) + '/pair)';
+      perUnit.style.display = 'inline';
+    } else if (perUnit) {
+      perUnit.style.display = 'none';
+    }
+  }
+
+  function activateBundle(radio) {
+    document.querySelectorAll('.lg-bundle-row').forEach(function (r) { r.classList.remove('lg-bundle-row--active'); });
+    radio.closest('.lg-bundle-row').classList.add('lg-bundle-row--active');
+    updateUI();
+  }
+
+  document.querySelectorAll('.lg-bundle-row').forEach(function (row) {
+    row.addEventListener('click', function () {
+      var radio = row.querySelector('.lg-bundle-radio');
+      if (radio) { radio.checked = true; activateBundle(radio); }
+    });
+  });
+
+  // Thumbnails
+  document.querySelectorAll('.lg-thumb').forEach(function (thumb) {
+    thumb.addEventListener('click', function () {
+      if (mainImg) mainImg.src = thumb.dataset.src;
+      document.querySelectorAll('.lg-thumb').forEach(function (t) { t.classList.remove('lg-thumb--active'); });
+      thumb.classList.add('lg-thumb--active');
+    });
+  });
+
+  // Buy Now
+  async function buyNow() {
+    var origHTML = ctaBtn ? ctaBtn.innerHTML : '';
+    if (ctaBtn) { ctaBtn.disabled = true; ctaBtn.textContent = 'Adding…'; }
+    if (stickyBtn) { stickyBtn.disabled = true; stickyBtn.textContent = 'Adding…'; }
+    try {
+      var v = variants[0];
+      if (!v) { alert('Product variant not found. Please refresh.'); throw new Error('no variant'); }
+      var qty = getActiveQty();
+      await fetch('/cart/clear.js', { method: 'POST' });
+      var res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ items: [{ id: v.id, quantity: qty }] })
+      });
+      if (!res.ok) { var e = await res.json().catch(function(){return{};}); throw new Error(e.description || 'Cart error ' + res.status); }
+      window.location.replace('/checkout');
+    } catch (err) {
+      if (err.message !== 'no variant') alert('Could not add to cart: ' + err.message);
+      if (ctaBtn) { ctaBtn.disabled = false; ctaBtn.innerHTML = origHTML; }
+      if (stickyBtn) { stickyBtn.disabled = false; stickyBtn.textContent = 'Buy Now'; }
+    }
+  }
+
+  if (ctaBtn)    ctaBtn.addEventListener('click', buyNow);
+  if (stickyBtn) stickyBtn.addEventListener('click', buyNow);
+
+  // Sticky bar show on scroll
+  var heroForm = document.querySelector('.lg-form');
+  if (heroForm && stickyBar) {
+    var obs = new IntersectionObserver(function(entries) {
+      stickyBar.style.transform = entries[0].isIntersecting ? 'translateY(100%)' : 'translateY(0)';
+    }, { threshold: 0.1 });
+    obs.observe(heroForm);
+  }
+
+  // Countdown timer
+  var timerEl = document.getElementById('lg-timer');
+  if (timerEl) {
+    var secs = 23 * 3600 + 47 * 60 + 12;
+    setInterval(function() {
+      secs = Math.max(0, secs - 1);
+      var h = Math.floor(secs / 3600);
+      var m = Math.floor((secs % 3600) / 60);
+      var s = secs % 60;
+      timerEl.textContent = [h, m, s].map(function(n){ return n.toString().padStart(2,'0'); }).join(':');
+    }, 1000);
+  }
+
+  updateBundlePrices();
+  updateUI();
+})();
+</script>
+
+<style>
+/* ── Announcement ── */
+.lg-announce {
+  background: #0d2e0d; color: #d4f7d4;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+  padding: 10px 0; overflow: hidden; white-space: nowrap;
+}
+.lg-announce-track {
+  display: inline-flex; align-items: center; gap: 20px;
+  animation: lg-ticker 28s linear infinite;
+}
+.lg-announce-sep { color: #7ee887; }
+@keyframes lg-ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ── Hero layout ── */
+.lg-hero { background: #f9faf7; padding: 40px 20px 56px; }
+.lg-hero-layout {
+  max-width: 1080px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr; gap: 40px;
+}
+@media (min-width: 780px) {
+  .lg-hero-layout { grid-template-columns: 1.1fr 1fr; align-items: start; gap: 56px; }
+}
+
+/* ── Gallery ── */
+.lg-gallery-main {
+  position: relative; border-radius: 16px; overflow: hidden;
+  background: #fff; box-shadow: 0 4px 24px rgba(0,0,0,0.08); margin-bottom: 12px;
+}
+.lg-main-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+.lg-zoom-badge {
+  position: absolute; bottom: 12px; right: 12px;
+  background: rgba(0,0,0,0.55); color: #fff;
+  font-size: 0.65rem; font-weight: 600; padding: 4px 10px;
+  border-radius: 20px; pointer-events: none;
+}
+.lg-gallery-thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
+.lg-thumb {
+  width: 72px; height: 72px; border-radius: 10px; overflow: hidden;
+  border: 2px solid transparent; background: #fff; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: border-color 0.15s, box-shadow 0.15s;
+  padding: 0;
+}
+.lg-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.lg-thumb--active { border-color: #0d2e0d; box-shadow: 0 2px 8px rgba(13,46,13,0.2); }
+.lg-thumb:hover { border-color: #3b6e2e; }
+
+/* ── Form ── */
+.lg-social-proof {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fef9f0; border: 1px solid #f5d48a;
+  color: #7a4f00; font-size: 0.78rem; font-weight: 600;
+  padding: 6px 14px; border-radius: 99px; margin-bottom: 14px;
+}
+.lg-social-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #2ea843;
+  animation: lg-pulse 1.5s ease-in-out infinite;
+}
+@keyframes lg-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+.lg-stars-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.lg-stars { color: #f5a623; font-size: 1.1rem; letter-spacing: 2px; }
+.lg-review-count { font-size: 0.78rem; color: #777; }
+.lg-title {
+  font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 900; color: #0a1f0a;
+  margin: 0 0 12px; line-height: 1.2; letter-spacing: -0.02em;
+}
+.lg-tagline { font-size: 0.95rem; color: #555; margin-bottom: 18px; line-height: 1.6; }
+.lg-tagline em { color: #0d2e0d; font-style: normal; font-weight: 700; }
+
+/* ── Price ── */
+.lg-price-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.lg-price { font-size: 1.8rem; font-weight: 900; color: #0d2e0d; }
+.lg-compare { font-size: 1.1rem; color: #aaa; text-decoration: line-through; }
+.lg-save-badge {
+  background: #2ea843; color: #fff;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.05em;
+  padding: 4px 10px; border-radius: 99px; display: inline-flex; align-items: center;
+}
+.lg-per-unit { font-size: 0.82rem; color: #888; }
+
+/* ── BMSM ── */
+.lg-bmsm-head {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.78rem; font-weight: 700; color: #0d2e0d;
+  margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase;
+}
+.lg-bmsm-line { flex: 1; height: 1px; background: #c8e6c8; }
+
+/* ── Bundle picker ── */
+.lg-bundle-picker { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.lg-bundle-wrap { position: relative; }
+.lg-bundle-wrap--popular { margin-top: 16px; }
+.lg-popular-tag {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, #0d2e0d, #2ea843);
+  color: #fff; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em;
+  padding: 4px 14px; border-radius: 99px; white-space: nowrap; z-index: 1;
+}
+.lg-bundle-row {
+  display: block; padding: 14px 16px;
+  border: 2px solid #e0e8de; border-radius: 12px; cursor: pointer;
+  background: #fcfdf8; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  user-select: none;
+}
+.lg-bundle-row:hover { border-color: #3b6e2e; background: #f5fdf5; }
+.lg-bundle-row--active {
+  border-color: #0d2e0d; background: #fff;
+  box-shadow: 0 0 0 3px rgba(13,46,13,0.1);
+}
+.lg-bundle-top { display: flex; align-items: center; gap: 12px; }
+.lg-radio-dot {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid #bbb; flex-shrink: 0; background: #fff;
+  transition: border-color 0.15s, background 0.15s;
+}
+.lg-bundle-row--active .lg-radio-dot {
+  border-color: #0d2e0d;
+  background: radial-gradient(circle, #0d2e0d 45%, #fff 50%);
+}
+.lg-bundle-info { flex: 1; }
+.lg-bundle-name { font-weight: 800; font-size: 0.9rem; color: #0a1f0a; display: block; }
+.lg-bundle-sub { font-size: 0.75rem; color: #888; }
+.lg-bundle-sub--deal { color: #2ea843; font-weight: 700; }
+.lg-bundle-pricing { text-align: right; }
+.lg-bundle-total { font-weight: 800; font-size: 0.95rem; color: #0d2e0d; display: block; }
+.lg-bundle-was { font-size: 0.78rem; color: #bbb; text-decoration: line-through; }
+
+/* ── Bullets ── */
+.lg-bullets { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-direction: column; gap: 8px; }
+.lg-bullets li { font-size: 0.9rem; color: #333; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+.lg-bullet-icon { font-size: 1rem; flex-shrink: 0; }
+
+/* ── Trust ── */
+.lg-trust-row { display: flex; gap: 6px 16px; flex-wrap: wrap; margin-bottom: 18px; }
+.lg-trust-item { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; color: #0d2e0d; font-weight: 600; }
+.lg-trust-item svg { color: #2ea843; }
+
+/* ── CTA ── */
+.lg-cta-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 18px 24px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, #0d2e0d 0%, #1a5c1a 100%);
+  color: #fff; font-size: 1.05rem; font-weight: 800;
+  cursor: pointer; letter-spacing: 0.01em;
+  box-shadow: 0 4px 16px rgba(13,46,13,0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.lg-cta-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(13,46,13,0.45); }
+.lg-cta-btn:active { transform: translateY(0); }
+.lg-cta-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.lg-shipping-note { font-size: 0.8rem; color: #666; text-align: center; margin: 10px 0 14px; }
+.lg-shipping-note strong { color: #0d2e0d; }
+
+/* ── Urgency ── */
+.lg-urgency {
+  display: flex; align-items: center; gap: 8px;
+  background: #fff8e1; border: 1px solid #ffd740; border-radius: 10px;
+  padding: 10px 16px; font-size: 0.8rem; color: #7a4f00; margin-bottom: 20px;
+}
+.lg-urgency svg { color: #f57c00; flex-shrink: 0; }
+.lg-urgency strong { color: #c62828; }
+
+/* ── Collapsibles ── */
+.lg-collapsibles { border-top: 1px solid #e0e8de; }
+.lg-detail { border-bottom: 1px solid #e0e8de; }
+.lg-detail-summary {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 0; cursor: pointer;
+  font-size: 0.9rem; font-weight: 700; color: #1a1a1a;
+  list-style: none; user-select: none;
+}
+.lg-detail-summary::-webkit-details-marker { display: none; }
+.lg-detail-icon { font-size: 1rem; }
+.lg-detail-chevron { margin-left: auto; transition: transform 0.2s; color: #888; }
+.lg-detail[open] .lg-detail-chevron { transform: rotate(180deg); }
+.lg-detail-body { padding: 0 0 14px 34px; }
+.lg-detail-body p { font-size: 0.86rem; color: #555; line-height: 1.7; }
+
+/* ── Proof strip ── */
+.lg-proof-strip {
+  background: #0d2e0d; color: rgba(255,255,255,0.8);
+  padding: 12px 0; overflow: hidden; white-space: nowrap;
+}
+.lg-proof-track {
+  display: inline-flex; gap: 28px; align-items: center;
+  animation: lg-ticker 40s linear infinite;
+  font-size: 0.8rem;
+}
+.lg-proof-sep { color: #7ee887; font-size: 0.7rem; }
+
+/* ── How it works ── */
+.lg-how { padding: 72px 20px; background: #fff; }
+.lg-section-inner { max-width: 1080px; margin: 0 auto; }
+.lg-eyebrow {
+  font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em;
+  color: #2ea843; text-transform: uppercase; margin-bottom: 8px;
+}
+.lg-section-title {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 900; color: #0a1f0a; letter-spacing: -0.03em;
+  margin-bottom: 40px; line-height: 1.15;
+}
+.lg-steps-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+}
+@media (max-width: 700px) { .lg-steps-grid { grid-template-columns: 1fr; } }
+.lg-step { text-align: center; }
+.lg-step-num {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
+  color: #2ea843; margin-bottom: 12px; text-transform: uppercase;
+}
+.lg-step-img {
+  width: 100%; aspect-ratio: 4/3; object-fit: cover;
+  border-radius: 16px; margin-bottom: 20px;
+}
+.lg-step-title { font-size: 1.1rem; font-weight: 800; color: #0a1f0a; margin-bottom: 8px; }
+.lg-step-desc { font-size: 0.88rem; color: #555; line-height: 1.65; }
+
+/* ── Features ── */
+.lg-features { padding: 72px 20px; background: #f4faf4; }
+.lg-features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+@media (max-width: 900px) { .lg-features-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .lg-features-grid { grid-template-columns: 1fr; } }
+.lg-feature-card {
+  background: #fff; border-radius: 16px; padding: 28px 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid #e0ecd8;
+}
+.lg-feature-icon { font-size: 2rem; margin-bottom: 14px; }
+.lg-feature-card h3 { font-size: 1rem; font-weight: 800; color: #0a1f0a; margin-bottom: 8px; }
+.lg-feature-card p { font-size: 0.86rem; color: #666; line-height: 1.65; }
+
+/* ── Testimonials ── */
+.lg-testimonials { padding: 72px 20px; background: #fff; }
+.lg-reviews-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+@media (max-width: 640px) { .lg-reviews-grid { grid-template-columns: 1fr; } }
+.lg-review-card {
+  background: #f9faf7; border-radius: 16px; padding: 28px 24px;
+  border: 1px solid #e0e8de;
+}
+.lg-review-stars { color: #f5a623; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 14px; }
+.lg-review-text { font-size: 0.9rem; color: #333; line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.lg-reviewer { display: flex; align-items: center; gap: 12px; }
+.lg-reviewer-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, #0d2e0d, #2ea843);
+  color: #fff; font-weight: 800; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.lg-reviewer strong { display: block; font-size: 0.88rem; color: #1a1a1a; }
+.lg-reviewer span { font-size: 0.75rem; color: #888; }
+
+/* ── FAQ ── */
+.lg-faq { padding: 72px 20px; background: #f4faf4; }
+.lg-faq-inner { max-width: 720px; margin: 0 auto; }
+.lg-faq-list { display: flex; flex-direction: column; gap: 0; }
+.lg-faq-item {
+  border: 1px solid #e0e8de; border-radius: 12px;
+  margin-bottom: 10px; overflow: hidden; background: #fff;
+}
+.lg-faq-item[open] { background: #f4faf4; }
+.lg-faq-q {
+  display: flex; align-items: center; gap: 10px;
+  padding: 18px 20px; cursor: pointer;
+  font-size: 0.93rem; font-weight: 700; color: #0a1f0a;
+  list-style: none; user-select: none;
+}
+.lg-faq-q::-webkit-details-marker { display: none; }
+.lg-faq-icon { font-size: 1rem; }
+.lg-faq-chevron { margin-left: auto; transition: transform 0.2s; }
+.lg-faq-item[open] .lg-faq-chevron { transform: rotate(180deg); }
+.lg-faq-a { padding: 0 20px 18px 50px; font-size: 0.88rem; color: #555; line-height: 1.7; margin: 0; }
+
+/* ── Footer ── */
+.lg-footer { background: #0a1f0a; color: rgba(255,255,255,0.75); padding: 56px 24px 24px; }
+.lg-footer-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+@media (max-width: 640px) { .lg-footer-inner { grid-template-columns: 1fr; gap: 32px; } }
+.lg-footer-logo { height: 48px; width: auto; margin-bottom: 12px; filter: brightness(0) invert(1) opacity(0.9); }
+.lg-footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+.lg-footer-links { display: flex; flex-direction: column; gap: 0; }
+.lg-footer-links strong { font-size: 0.78rem; font-weight: 700; color: #7ee887; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.lg-footer-links a { font-size: 0.85rem; color: rgba(255,255,255,0.6); padding: 4px 0; transition: color 0.15s; }
+.lg-footer-links a:hover { color: #7ee887; }
+.lg-footer-bottom { max-width: 1080px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.lg-footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+.lg-footer-badges { display: flex; gap: 16px; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+
+/* ── Sticky buy bar ── */
+.lg-sticky-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 500;
+  background: #fff; border-top: 1px solid #e0e0e0;
+  padding: 12px 20px; display: flex; align-items: center; gap: 16px;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+  transform: translateY(100%); transition: transform 0.3s ease;
+}
+.lg-sticky-info { flex: 1; }
+.lg-sticky-info strong { font-size: 0.85rem; color: #1a1a1a; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+.lg-sticky-info span { font-size: 1rem; font-weight: 800; color: #0d2e0d; }
+.lg-sticky-cta {
+  background: linear-gradient(135deg, #0d2e0d, #1a5c1a);
+  color: #fff; border: none; border-radius: 10px;
+  padding: 12px 24px; font-size: 0.9rem; font-weight: 800;
+  cursor: pointer; white-space: nowrap; flex-shrink: 0;
+}
+.lg-sticky-cta:hover { background: #1a4a1a; }
+@media (min-width: 780px) { .lg-sticky-bar { display: none; } }
+
+/* ── Utilities ── */
+.lg-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+</style>
+
+{% schema %}
+{
+  "name": "LeafGuard Product Hero",
+  "settings": []
+}
+{% endschema %}

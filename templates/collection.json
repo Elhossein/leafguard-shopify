@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "lg-header":     { "type": "lg-header",   "settings": {} },
+    "lg-collection": { "type": "lg-collection-page", "settings": {} }
+  },
+  "order": ["lg-header", "lg-collection"]
+}

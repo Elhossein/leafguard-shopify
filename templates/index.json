@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "lg-header":   { "type": "lg-header",   "settings": {} },
+    "lg-homepage": { "type": "lg-homepage", "settings": {} }
+  },
+  "order": ["lg-header", "lg-homepage"]
+}

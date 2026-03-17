@@ -1,0 +1,11 @@
+/* LeafGuard theme — global styles (section CSS is inline) */
+:root {
+  --green-dark: #0d2e0d;
+  --green-mid: #1a5c1a;
+  --green-accent: #2ea843;
+  --green-light: #7ee887;
+  --text-dark: #0a1f0a;
+  --text-mid: #555;
+  --bg-light: #f4faf4;
+  --border: #e0ecd8;
+}

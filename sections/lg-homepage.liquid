@@ -1,0 +1,213 @@
+{%- assign lg_product = section.settings.leaf_scoop_product -%}
+{%- assign lg_v = lg_product.selected_or_first_available_variant -%}
+
+<!-- ══ ANNOUNCEMENT BAR ══ -->
+<div class="lgh-announce" aria-hidden="true">
+  <div class="lgh-announce-track">
+    {%- for i in (1..12) -%}
+      <span>🌿 FREE SHIPPING ON ALL ORDERS</span>
+      <span class="lgh-sep">★</span>
+      <span>30-DAY MONEY-BACK GUARANTEE</span>
+      <span class="lgh-sep">★</span>
+      <span>10,000+ HAPPY GARDENERS</span>
+      <span class="lgh-sep">★</span>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="lgh-hero">
+  <div class="lgh-hero-inner">
+    <div class="lgh-hero-text">
+      <p class="lgh-eyebrow">{{ shop.name | upcase }}</p>
+      <h1 class="lgh-hero-title">Yard Work,<br><em>Done Right.</em></h1>
+      <p class="lgh-hero-sub">Premium garden tools that make cleanup faster, easier, and actually enjoyable. No back pain. No wasted weekends.</p>
+      <div class="lgh-hero-actions">
+        <a href="{{ lg_product.url | default: '/products/leaf-scoops' }}" class="lgh-cta-primary">Shop Now →</a>
+        <a href="/collections/all" class="lgh-cta-secondary">View All Products</a>
+      </div>
+      <div class="lgh-hero-social">
+        <div class="lgh-hero-stars">★★★★★</div>
+        <span>Loved by <strong>10,000+</strong> gardeners across the US</span>
+      </div>
+    </div>
+    <div class="lgh-hero-img-wrap">
+      {%- if lg_product != blank and lg_product.featured_image -%}
+        <img src="{{ lg_product.featured_image | image_url: width: 800 }}" alt="{{ lg_product.title }}" class="lgh-hero-img" />
+      {%- else -%}
+        <img src="{{ 'lg-lifestyle-1.jpg' | asset_url }}" alt="Leaf Scoops" class="lgh-hero-img" />
+      {%- endif -%}
+      <div class="lgh-hero-badge">
+        <span>⭐ Best Seller</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRUST BAR ══ -->
+<section class="lgh-trust">
+  <div class="lgh-trust-inner">
+    <div class="lgh-trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="28" height="28"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      <p class="lgh-trust-label">Free Shipping</p>
+      <p class="lgh-trust-sub">On every order</p>
+    </div>
+    <div class="lgh-trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="28" height="28"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      <p class="lgh-trust-label">30-Day Guarantee</p>
+      <p class="lgh-trust-sub">Money back, no questions</p>
+    </div>
+    <div class="lgh-trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="28" height="28"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      <p class="lgh-trust-label">Secure Checkout</p>
+      <p class="lgh-trust-sub">SSL encrypted &amp; safe</p>
+    </div>
+    <div class="lgh-trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="28" height="28"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      <p class="lgh-trust-label">10,000+ Customers</p>
+      <p class="lgh-trust-sub">And growing every day</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURED PRODUCT ══ -->
+{%- if lg_product != blank -%}
+<section class="lgh-featured">
+  <div class="lgh-section-inner">
+    <p class="lgh-eyebrow" style="text-align:center">FEATURED PRODUCT</p>
+    <h2 class="lgh-section-title" style="text-align:center">Our #1 Best Seller</h2>
+    <div class="lgh-featured-card">
+      <div class="lgh-featured-img-wrap">
+        {%- if lg_product.featured_image -%}
+          <img src="{{ lg_product.featured_image | image_url: width: 700 }}" alt="{{ lg_product.title }}" class="lgh-featured-img" />
+        {%- else -%}
+          <img src="{{ 'lg-main.jpg' | asset_url }}" alt="MEKKAPRO Leaf Scoops" class="lgh-featured-img" />
+        {%- endif -%}
+        <span class="lgh-featured-badge">⭐ #1 Best Seller</span>
+      </div>
+      <div class="lgh-featured-body">
+        <div class="lgh-featured-stars">★★★★★ <span>4.5 · 2,917 reviews</span></div>
+        <h3 class="lgh-featured-title">{{ lg_product.title }}</h3>
+        <p class="lgh-featured-desc">The V2.0 upgrade your yard has been waiting for. Thicker plastic, ergonomic comfort grip, and a scoop design that clears leaves 10× faster than a rake — without the back pain.</p>
+        <ul class="lgh-featured-bullets">
+          <li>🍂 Clear your whole yard in under 30 minutes</li>
+          <li>💪 Reinforced V2.0 — handles wet leaves &amp; heavy loads</li>
+          <li>🦺 Comfort grip lining — no hand fatigue</li>
+          <li>📦 Stack &amp; hang for easy storage</li>
+        </ul>
+        <div class="lgh-featured-price-row">
+          <span class="lgh-featured-price">{{ lg_v.price | money }}</span>
+          {%- if lg_v.compare_at_price > lg_v.price -%}
+            <s class="lgh-featured-compare">{{ lg_v.compare_at_price | money }}</s>
+          {%- endif -%}
+        </div>
+        <a href="{{ lg_product.url }}" class="lgh-featured-cta">View Product →</a>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="lgh-testimonials">
+  <div class="lgh-section-inner">
+    <p class="lgh-eyebrow" style="text-align:center">CUSTOMER REVIEWS</p>
+    <h2 class="lgh-section-title" style="text-align:center">Real People. Real Results.</h2>
+    <div class="lgh-reviews-grid">
+      <div class="lgh-review">
+        <div class="lgh-review-stars">★★★★★</div>
+        <p>"I have a huge oak tree and every fall my yard is buried in leaves. These scoops cut my cleanup time from 3 hours to 45 minutes. Incredible."</p>
+        <strong>Mike T. — Dallas, TX</strong>
+      </div>
+      <div class="lgh-review">
+        <div class="lgh-review-stars">★★★★★</div>
+        <p>"My husband and I do yard work together now. We race each other and we're done in 20 minutes. Love this product."</p>
+        <strong>Sarah K. — Atlanta, GA</strong>
+      </div>
+      <div class="lgh-review">
+        <div class="lgh-review-stars">★★★★★</div>
+        <p>"I'm 68 years old and my back can't handle raking. These are a game changer. No bending at all. Best garden purchase I've made in years."</p>
+        <strong>James R. — Portland, OR</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ── Announce ── */
+.lgh-announce { background: #0d2e0d; color: #d4f7d4; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; padding: 10px 0; overflow: hidden; white-space: nowrap; }
+.lgh-announce-track { display: inline-flex; align-items: center; gap: 20px; animation: lgh-ticker 28s linear infinite; }
+.lgh-sep { color: #7ee887; }
+@keyframes lgh-ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ── Hero ── */
+.lgh-hero { background: #f4faf4; padding: 80px 24px; }
+.lgh-hero-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 56px; }
+@media (max-width: 780px) { .lgh-hero-inner { grid-template-columns: 1fr; text-align: center; } }
+.lgh-eyebrow { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em; color: #2ea843; text-transform: uppercase; margin-bottom: 10px; }
+.lgh-hero-title { font-size: clamp(2.4rem, 6vw, 3.6rem); font-weight: 900; color: #0a1f0a; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 18px; }
+.lgh-hero-title em { font-style: normal; color: #2ea843; }
+.lgh-hero-sub { font-size: 1.05rem; color: #555; max-width: 440px; line-height: 1.65; margin-bottom: 28px; }
+.lgh-hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
+@media (max-width: 780px) { .lgh-hero-actions { justify-content: center; } }
+.lgh-cta-primary { background: linear-gradient(135deg, #0d2e0d, #1a5c1a); color: #fff; padding: 14px 28px; border-radius: 10px; font-weight: 800; font-size: 0.95rem; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 14px rgba(13,46,13,0.3); }
+.lgh-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13,46,13,0.4); }
+.lgh-cta-secondary { border: 2px solid #0d2e0d; color: #0d2e0d; padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 0.95rem; transition: background 0.15s, color 0.15s; }
+.lgh-cta-secondary:hover { background: #0d2e0d; color: #fff; }
+.lgh-hero-social { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: #555; }
+.lgh-hero-stars { color: #f5a623; font-size: 0.9rem; }
+@media (max-width: 780px) { .lgh-hero-social { justify-content: center; } }
+.lgh-hero-img-wrap { position: relative; }
+.lgh-hero-img { width: 100%; border-radius: 20px; box-shadow: 0 12px 40px rgba(13,46,13,0.18); }
+.lgh-hero-badge { position: absolute; top: 20px; left: 20px; background: linear-gradient(135deg, #0d2e0d, #2ea843); color: #fff; font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 99px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+/* ── Trust ── */
+.lgh-trust { background: #fff; padding: 40px 24px; border-top: 1px solid #e8f0e8; border-bottom: 1px solid #e8f0e8; }
+.lgh-trust-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+@media (max-width: 640px) { .lgh-trust-inner { grid-template-columns: repeat(2, 1fr); } }
+.lgh-trust-item { text-align: center; padding: 16px; }
+.lgh-trust-item svg { color: #2ea843; margin: 0 auto 10px; }
+.lgh-trust-label { font-size: 0.88rem; font-weight: 700; color: #0a1f0a; margin-bottom: 2px; }
+.lgh-trust-sub { font-size: 0.75rem; color: #888; }
+
+/* ── Section layout ── */
+.lgh-section-inner { max-width: 1080px; margin: 0 auto; }
+.lgh-section-title { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900; color: #0a1f0a; letter-spacing: -0.03em; margin-bottom: 40px; line-height: 1.15; }
+
+/* ── Featured ── */
+.lgh-featured { padding: 72px 24px; background: #f4faf4; }
+.lgh-featured-card { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; background: #fff; border-radius: 20px; padding: 48px; box-shadow: 0 4px 24px rgba(0,0,0,0.07); border: 1px solid #e0ecd8; }
+@media (max-width: 780px) { .lgh-featured-card { grid-template-columns: 1fr; padding: 32px 24px; gap: 32px; } }
+.lgh-featured-img-wrap { position: relative; }
+.lgh-featured-img { width: 100%; border-radius: 14px; }
+.lgh-featured-badge { position: absolute; top: 16px; right: 16px; background: linear-gradient(135deg, #f5a623, #e67e22); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 6px 12px; border-radius: 99px; }
+.lgh-featured-stars { color: #f5a623; font-size: 0.9rem; margin-bottom: 10px; }
+.lgh-featured-stars span { color: #888; font-size: 0.78rem; }
+.lgh-featured-title { font-size: 1.6rem; font-weight: 900; color: #0a1f0a; margin-bottom: 12px; line-height: 1.2; }
+.lgh-featured-desc { font-size: 0.9rem; color: #555; line-height: 1.65; margin-bottom: 18px; }
+.lgh-featured-bullets { list-style: none; padding: 0; margin: 0 0 20px; display: flex; flex-direction: column; gap: 6px; }
+.lgh-featured-bullets li { font-size: 0.88rem; color: #333; }
+.lgh-featured-price-row { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.lgh-featured-price { font-size: 1.6rem; font-weight: 900; color: #0d2e0d; }
+.lgh-featured-compare { font-size: 1rem; color: #aaa; text-decoration: line-through; }
+.lgh-featured-cta { display: inline-block; background: linear-gradient(135deg, #0d2e0d, #1a5c1a); color: #fff; padding: 14px 28px; border-radius: 10px; font-weight: 800; font-size: 0.95rem; transition: transform 0.15s; }
+.lgh-featured-cta:hover { transform: translateY(-2px); }
+
+/* ── Testimonials ── */
+.lgh-testimonials { padding: 72px 24px; background: #fff; }
+.lgh-reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+@media (max-width: 780px) { .lgh-reviews-grid { grid-template-columns: 1fr; } }
+.lgh-review { background: #f4faf4; border-radius: 16px; padding: 28px 24px; border: 1px solid #e0ecd8; }
+.lgh-review-stars { color: #f5a623; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 12px; }
+.lgh-review p { font-size: 0.9rem; color: #444; line-height: 1.65; margin-bottom: 14px; font-style: italic; }
+.lgh-review strong { font-size: 0.82rem; color: #0d2e0d; }
+</style>
+
+{% schema %}
+{
+  "name": "LeafGuard Homepage",
+  "settings": [
+    { "type": "product", "id": "leaf_scoop_product", "label": "Leaf Scoop product" }
+  ]
+}
+{% endschema %}
