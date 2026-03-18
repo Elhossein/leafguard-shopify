@@ -554,10 +554,13 @@
   var stickyPrice = document.getElementById('lg-sticky-price');
   var stickyBar = document.getElementById('lg-sticky-bar');
 
+  // Track selected bundle in JS variables — don't rely on DOM :checked state
+  var selectedQty  = 1;
+  var selectedDisc = 0;
+
   function fmt(cents) { return '$' + (cents / 100).toFixed(2); }
-  function getActiveRadio() { return document.querySelector('.lg-bundle-radio:checked'); }
-  function getActiveQty()  { var r = getActiveRadio(); return r ? parseInt(r.dataset.qty, 10) : 1; }
-  function getActiveDisc() { var r = getActiveRadio(); return r ? parseInt(r.dataset.discount || '0', 10) : 0; }
+  function getActiveQty()  { return selectedQty; }
+  function getActiveDisc() { return selectedDisc; }
 
   function updateBundlePrices() {
     var base = variants[0]; if (!base) return;
@@ -604,16 +607,22 @@
     }
   }
 
-  function activateBundle(radio) {
+  function activateBundle(qty, disc, row) {
+    selectedQty  = qty;
+    selectedDisc = disc;
     document.querySelectorAll('.lg-bundle-row').forEach(function (r) { r.classList.remove('lg-bundle-row--active'); });
-    radio.closest('.lg-bundle-row').classList.add('lg-bundle-row--active');
+    row.classList.add('lg-bundle-row--active');
     updateUI();
   }
 
   document.querySelectorAll('.lg-bundle-row').forEach(function (row) {
     row.addEventListener('click', function () {
       var radio = row.querySelector('.lg-bundle-radio');
-      if (radio) { radio.checked = true; activateBundle(radio); }
+      if (radio) {
+        var qty  = parseInt(radio.dataset.qty, 10) || 1;
+        var disc = parseInt(radio.dataset.discount || '0', 10);
+        activateBundle(qty, disc, row);
+      }
     });
   });
 
