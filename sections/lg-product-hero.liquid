@@ -284,7 +284,7 @@
             allowfullscreen loading="lazy"></iframe>
         {%- endif -%}
       {%- else -%}
-        <video controls preload="metadata" playsinline poster="{{ lg_video.preview_image | image_url: width: 1200 }}">
+        <video controls autoplay muted loop playsinline preload="auto" poster="{{ lg_video.preview_image | image_url: width: 1200 }}" style="background:#000">
           {%- for source in lg_video.sources -%}
             <source src="{{ source.url }}" type="{{ source.mime_type }}" />
           {%- endfor -%}
@@ -1007,13 +1007,17 @@
 .lg-video-section { padding: 72px 20px; background: #0a1f0a; }
 .lg-video-section .lg-eyebrow { color: #7ee887; }
 .lg-video-section .lg-section-title { color: #fff; margin-bottom: 32px; }
-.lg-video-inner { max-width: 860px; margin: 0 auto; }
+.lg-video-inner { max-width: 480px; margin: 0 auto; }
 .lg-video-wrap {
   position: relative; border-radius: 20px; overflow: hidden;
   box-shadow: 0 8px 48px rgba(0,0,0,0.5);
   background: #000;
+  display: flex; justify-content: center;
 }
-.lg-video-wrap video,
+.lg-video-wrap video {
+  display: block; width: 100%; height: auto;
+  max-height: 80vh; border: none; object-fit: contain;
+}
 .lg-video-wrap iframe {
   display: block; width: 100%;
   aspect-ratio: 16/9; border: none;
