@@ -11,7 +11,6 @@
     <!-- Center: Logo -->
     <a href="/" class="lg-header-logo-link" aria-label="{{ shop.name }}">
       <img src="{{ 'leafguard-logo.png' | asset_url }}" alt="{{ shop.name }}" class="lg-header-logo" />
-      <span class="lg-header-logo-name">{{ shop.name }}</span>
     </a>
 
     <!-- Right: Icons -->
@@ -35,46 +34,43 @@
 <style>
 .lg-header {
   position: sticky; top: 0; z-index: 800;
-  background: #0d2e0d; color: #fff;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: #fff;
+  border-bottom: 1px solid #e8ede8;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
 }
 .lg-header-inner {
   max-width: 1200px; margin: 0 auto; padding: 0 24px;
   display: grid; grid-template-columns: 1fr auto 1fr;
-  align-items: center; height: 68px;
+  align-items: center; height: 70px;
 }
 .lg-header-nav {
   display: flex; align-items: center; gap: 24px;
 }
 .lg-header-nav-link {
   font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em;
-  color: rgba(255,255,255,0.75); text-transform: uppercase;
+  color: #444; text-transform: uppercase;
   transition: color 0.15s;
 }
-.lg-header-nav-link:hover { color: #7ee887; }
+.lg-header-nav-link:hover { color: #0d2e0d; }
 .lg-header-logo-link {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
+  display: flex; align-items: center; justify-content: center;
   text-decoration: none;
 }
-.lg-header-logo { height: 38px; width: auto; object-fit: contain; filter: brightness(0) invert(1); }
-.lg-header-logo-name {
-  font-size: 1.25rem; font-weight: 900; letter-spacing: 0.06em;
-  color: #fff; text-transform: uppercase; line-height: 1;
-  font-family: inherit;
-}
+.lg-header-logo { height: 52px; width: auto; object-fit: contain; }
 .lg-header-icons {
   display: flex; align-items: center; gap: 8px; justify-content: flex-end;
 }
 .lg-header-icon-btn {
   position: relative; background: none; border: none;
-  color: rgba(255,255,255,0.85); padding: 6px;
+  color: #333; padding: 6px;
   display: flex; align-items: center; justify-content: center;
-  border-radius: 8px; transition: color 0.15s, background 0.15s;
+  border-radius: 8px; cursor: pointer;
+  transition: color 0.15s, background 0.15s;
 }
-.lg-header-icon-btn:hover { color: #7ee887; background: rgba(255,255,255,0.08); }
+.lg-header-icon-btn:hover { color: #0d2e0d; background: rgba(13,46,13,0.06); }
 .lg-header-cart-count {
   position: absolute; top: 0; right: 0;
-  background: #7ee887; color: #0d2e0d;
+  background: #0d2e0d; color: #fff;
   font-size: 0.6rem; font-weight: 800;
   width: 16px; height: 16px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -84,11 +80,10 @@
 
 /* Mobile */
 @media (max-width: 600px) {
-  .lg-header-inner { padding: 0 16px; height: 60px; }
+  .lg-header-inner { padding: 0 16px; height: 62px; }
   .lg-header-nav { gap: 14px; }
   .lg-header-nav-link { font-size: 0.72rem; }
-  .lg-header-logo { height: 32px; filter: brightness(0) invert(1); }
-  .lg-header-logo-name { font-size: 1.05rem; }
+  .lg-header-logo { height: 44px; }
 }
 @media (max-width: 400px) {
   .lg-header-nav { display: none; }
