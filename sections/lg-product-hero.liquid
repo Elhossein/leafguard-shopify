@@ -167,7 +167,21 @@
 
       </div><!-- /.lg-bundle-picker -->
 
-      <!-- Feature bullets -->
+      <!-- CTA — top position -->
+      <button type="button" class="lg-cta-btn" id="lg-cta-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Buy Now — <span id="lg-cta-price"></span>
+      </button>
+
+      <p class="lg-shipping-note">🚚 Free shipping · Delivers to all US states in <strong>5–10 business days</strong></p>
+
+      <!-- Urgency timer -->
+      <div class="lg-urgency">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Deal ends in <strong id="lg-timer">23:47:12</strong> — only <strong>7 left</strong> at this price</span>
+      </div>
+
+      <!-- Feature bullets — below CTA -->
       <ul class="lg-bullets">
         <li><span class="lg-bullet-icon">🍂</span> Clears leaves <strong>10× faster</strong> than a traditional rake</li>
         <li><span class="lg-bullet-icon">💪</span> V2.0 — thicker, reinforced plastic handles heavier loads</li>
@@ -176,7 +190,7 @@
         <li><span class="lg-bullet-icon">✅</span> Fits all bag sizes — paper lawn bags, garbage bags</li>
       </ul>
 
-      <!-- Trust row -->
+      <!-- Trust row — below bullets -->
       <div class="lg-trust-row">
         <div class="lg-trust-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
@@ -190,20 +204,6 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="20" height="20"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
           <span>Secure Checkout</span>
         </div>
-      </div>
-
-      <!-- CTA -->
-      <button type="button" class="lg-cta-btn" id="lg-cta-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        Buy Now — <span id="lg-cta-price"></span>
-      </button>
-
-      <p class="lg-shipping-note">🚚 Free shipping · Delivers to all US states in <strong>5–10 business days</strong></p>
-
-      <!-- Urgency timer -->
-      <div class="lg-urgency">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span>Deal ends in <strong id="lg-timer">23:47:12</strong> — only <strong>7 left</strong> at this price</span>
       </div>
 
       <!-- Collapsibles -->
@@ -258,6 +258,42 @@
     </div><!-- /.lg-form -->
   </div><!-- /.lg-hero-layout -->
 </section>
+
+<!-- ══ PRODUCT VIDEO ══ -->
+{%- assign lg_video = nil -%}
+{%- for media in lg.media -%}
+  {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+    {%- assign lg_video = media -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if lg_video -%}
+<section class="lg-video-section">
+  <div class="lg-video-inner">
+    <p class="lg-eyebrow" style="text-align:center">SEE IT IN ACTION</p>
+    <h2 class="lg-section-title" style="text-align:center">Watch How It Works</h2>
+    <div class="lg-video-wrap">
+      {%- if lg_video.media_type == 'external_video' -%}
+        {%- if lg_video.host == 'youtube' -%}
+          <iframe src="https://www.youtube.com/embed/{{ lg_video.external_id }}?autoplay=0&rel=0"
+            title="Product video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe>
+        {%- elsif lg_video.host == 'vimeo' -%}
+          <iframe src="https://player.vimeo.com/video/{{ lg_video.external_id }}"
+            title="Product video" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe>
+        {%- endif -%}
+      {%- else -%}
+        <video controls preload="metadata" playsinline poster="{{ lg_video.preview_image | image_url: width: 1200 }}">
+          {%- for source in lg_video.sources -%}
+            <source src="{{ source.url }}" type="{{ source.mime_type }}" />
+          {%- endfor -%}
+        </video>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
 
 <!-- ══ SOCIAL PROOF STRIP ══ -->
 <section class="lg-proof-strip">
@@ -957,6 +993,22 @@
 
 /* ── Utilities ── */
 .lg-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+/* ── Video section ── */
+.lg-video-section { padding: 72px 20px; background: #0a1f0a; }
+.lg-video-section .lg-eyebrow { color: #7ee887; }
+.lg-video-section .lg-section-title { color: #fff; margin-bottom: 32px; }
+.lg-video-inner { max-width: 860px; margin: 0 auto; }
+.lg-video-wrap {
+  position: relative; border-radius: 20px; overflow: hidden;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+  background: #000;
+}
+.lg-video-wrap video,
+.lg-video-wrap iframe {
+  display: block; width: 100%;
+  aspect-ratio: 16/9; border: none;
+}
 </style>
 
 {% schema %}
