@@ -11,6 +11,7 @@
     <!-- Center: Logo -->
     <a href="/" class="lg-header-logo-link" aria-label="{{ shop.name }}">
       <img src="{{ 'leafguard-logo.png' | asset_url }}" alt="{{ shop.name }}" class="lg-header-logo" />
+      <span class="lg-header-logo-name">{{ shop.name }}</span>
     </a>
 
     <!-- Right: Icons -->
@@ -51,8 +52,16 @@
   transition: color 0.15s;
 }
 .lg-header-nav-link:hover { color: #7ee887; }
-.lg-header-logo-link { display: flex; justify-content: center; }
-.lg-header-logo { height: 44px; width: auto; object-fit: contain; filter: brightness(0) invert(1); }
+.lg-header-logo-link {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  text-decoration: none;
+}
+.lg-header-logo { height: 38px; width: auto; object-fit: contain; filter: brightness(0) invert(1); }
+.lg-header-logo-name {
+  font-size: 1.25rem; font-weight: 900; letter-spacing: 0.06em;
+  color: #fff; text-transform: uppercase; line-height: 1;
+  font-family: inherit;
+}
 .lg-header-icons {
   display: flex; align-items: center; gap: 8px; justify-content: flex-end;
 }
@@ -78,7 +87,8 @@
   .lg-header-inner { padding: 0 16px; height: 60px; }
   .lg-header-nav { gap: 14px; }
   .lg-header-nav-link { font-size: 0.72rem; }
-  .lg-header-logo { height: 36px; filter: brightness(0) invert(1); }
+  .lg-header-logo { height: 32px; filter: brightness(0) invert(1); }
+  .lg-header-logo-name { font-size: 1.05rem; }
 }
 @media (max-width: 400px) {
   .lg-header-nav { display: none; }
