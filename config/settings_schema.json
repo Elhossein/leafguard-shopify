@@ -1,1 +1,61 @@
-[{"name":"theme_info","theme_name":"LeafGuard","theme_version":"1.0.0","theme_author":"LeafGuard","theme_documentation_url":"","theme_support_url":""}]
+[
+  {
+    "name": "theme_info",
+    "theme_name": "AirGuard™ Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "AirGuard",
+    "theme_documentation_url": "https://airguardtape.com",
+    "theme_support_url": "https://airguardtape.com"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color",
+        "default": "#ff6b1a"
+      },
+      {
+        "type": "color",
+        "id": "color_navy",
+        "label": "Navy Background",
+        "default": "#0a1628"
+      },
+      {
+        "type": "color",
+        "id": "color_blue",
+        "label": "Accent Blue",
+        "default": "#1a6fff"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body Font",
+        "default": "inter_n4"
+      }
+    ]
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "Brand Name",
+        "default": "AirGuard™"
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement Bar Text",
+        "default": "❄️ WINTER SALE: 50% OFF + FREE SHIPPING — Limited Stock Remaining!"
+      }
+    ]
+  }
+]
