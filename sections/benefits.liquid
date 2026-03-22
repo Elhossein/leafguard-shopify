@@ -1,96 +1,73 @@
-<!-- ═══ LEAFGUARD HEADER ═══ -->
-<header class="lg-header">
-  <div class="lg-header-inner">
-
-    <!-- Left: Nav -->
-    <nav class="lg-header-nav" aria-label="Main navigation">
-      <a href="/pages/track-order" class="lg-header-nav-link">Track Order</a>
-      <a href="/pages/contact" class="lg-header-nav-link">Contact Us</a>
-    </nav>
-
-    <!-- Center: Logo -->
-    <a href="/" class="lg-header-logo-link" aria-label="{{ shop.name }}">
-      <img src="{{ 'leafguard-logo.png' | asset_url }}" alt="{{ shop.name }}" class="lg-header-logo" />
-    </a>
-
-    <!-- Right: Icons -->
-    <div class="lg-header-icons">
-      <a href="/account" class="lg-header-icon-btn" aria-label="Account">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22">
-          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
-        </svg>
-      </a>
-      <button class="lg-header-icon-btn lg-header-cart" aria-label="Open cart">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
-        </svg>
-        <span class="lg-header-cart-count" aria-label="Cart items">0</span>
-      </button>
+<section class="benefits-section section">
+  <div class="container">
+    <div class="text-center">
+      <span class="section__eyebrow">Why AirGuard™</span>
+      <h2 class="section__title" style="color:var(--navy)">
+        Everything You Need.<br>Nothing You Don't.
+      </h2>
+      <p class="section__subtitle">
+        Designed for homeowners who want real results — fast.
+      </p>
     </div>
 
+    <div class="benefits-grid">
+
+      <div class="benefit-card" data-animate>
+        <span class="benefit-card__icon">❄️</span>
+        <div class="benefit-card__title">Blocks Cold Air</div>
+        <div class="benefit-card__desc">Creates an airtight barrier against freezing drafts and cold air infiltration.</div>
+      </div>
+
+      <div class="benefit-card" data-animate>
+        <span class="benefit-card__icon">💰</span>
+        <div class="benefit-card__title">Saves Money</div>
+        <div class="benefit-card__desc">Lower your heating &amp; cooling bills by up to 30% — starting this month.</div>
+      </div>
+
+      <div class="benefit-card" data-animate>
+        <span class="benefit-card__icon">⚡</span>
+        <div class="benefit-card__title">Installs in Seconds</div>
+        <div class="benefit-card__desc">Peel, stick, done. Zero tools required. Anyone can do it in under a minute.</div>
+      </div>
+
+      <div class="benefit-card" data-animate>
+        <span class="benefit-card__icon">🛡️</span>
+        <div class="benefit-card__title">All-Season Proof</div>
+        <div class="benefit-card__desc">UV-resistant and weatherproof — holds strong through extreme cold, heat, and rain.</div>
+      </div>
+
+      <div class="benefit-card" data-animate>
+        <span class="benefit-card__icon">✨</span>
+        <div class="benefit-card__title">Crystal Clear</div>
+        <div class="benefit-card__desc">Near-invisible when applied — preserves the look of your windows and doors.</div>
+      </div>
+
+      <div class="benefit-card" data-animate>
+        <span class="benefit-card__icon">🔄</span>
+        <div class="benefit-card__title">Clean Removal</div>
+        <div class="benefit-card__desc">Removes cleanly without residue or damage — safe for all window types.</div>
+      </div>
+
+      <div class="benefit-card" data-animate>
+        <span class="benefit-card__icon">🏠</span>
+        <div class="benefit-card__title">Universal Fit</div>
+        <div class="benefit-card__desc">Works on windows, doors, pipes, vents, and any crack or gap in your home.</div>
+      </div>
+
+      <div class="benefit-card" data-animate>
+        <span class="benefit-card__icon">💧</span>
+        <div class="benefit-card__title">Waterproof</div>
+        <div class="benefit-card__desc">100% waterproof adhesive — won't weaken or peel in wet or humid conditions.</div>
+      </div>
+
+    </div>
   </div>
-</header>
-
-<style>
-.lg-header {
-  position: sticky; top: 0; z-index: 800;
-  background: #fff;
-  border-bottom: 1px solid #e8ede8;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-}
-.lg-header-inner {
-  max-width: 1200px; margin: 0 auto; padding: 0 24px;
-  display: grid; grid-template-columns: 1fr auto 1fr;
-  align-items: center; height: 96px;
-}
-.lg-header-nav {
-  display: flex; align-items: center; gap: 24px;
-}
-.lg-header-nav-link {
-  font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em;
-  color: #444; text-transform: uppercase;
-  transition: color 0.15s;
-}
-.lg-header-nav-link:hover { color: #0d2e0d; }
-.lg-header-logo-link {
-  display: flex; align-items: center; justify-content: center;
-  text-decoration: none;
-}
-.lg-header-logo { height: 80px; width: auto; object-fit: contain; }
-.lg-header-icons {
-  display: flex; align-items: center; gap: 8px; justify-content: flex-end;
-}
-.lg-header-icon-btn {
-  position: relative; background: none; border: none;
-  color: #333; padding: 6px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 8px; cursor: pointer;
-  transition: color 0.15s, background 0.15s;
-}
-.lg-header-icon-btn:hover { color: #0d2e0d; background: rgba(13,46,13,0.06); }
-.lg-header-cart-count {
-  position: absolute; top: 0; right: 0;
-  background: #0d2e0d; color: #fff;
-  font-size: 0.6rem; font-weight: 800;
-  width: 16px; height: 16px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  transform: translate(4px, -4px);
-  line-height: 1;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .lg-header-inner { padding: 0 16px; height: 62px; }
-  .lg-header-nav { gap: 14px; }
-  .lg-header-nav-link { font-size: 0.72rem; }
-  .lg-header-logo { height: 64px; }
-}
-@media (max-width: 400px) {
-  .lg-header-nav { display: none; }
-  .lg-header-inner { grid-template-columns: auto 1fr; gap: 0; }
-}
-</style>
+</section>
 
 {% schema %}
-{ "name": "LeafGuard Header", "settings": [] }
+{
+  "name": "Benefits",
+  "settings": [],
+  "presets": [{"name": "Benefits"}]
+}
 {% endschema %}
