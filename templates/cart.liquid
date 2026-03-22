@@ -1,12 +1,54 @@
-{% render 'lg-header' %}
-<div style="max-width:600px;margin:80px auto;padding:0 24px;text-align:center">
-  <h1 style="font-size:2rem;font-weight:900;color:#0a1f0a;margin-bottom:16px">Your Cart</h1>
-  <a href="/collections/all" style="color:#0d2e0d;font-weight:700;text-decoration:underline">← Continue Shopping</a>
-  <div style="margin-top:40px">
+{% layout 'theme' %}
+
+<section class="section section--white">
+  <div class="container--narrow">
+    <h1 class="section__title" style="color:var(--navy);margin-bottom:32px">Your Cart 🛒</h1>
+
     {% if cart.item_count == 0 %}
-      <p style="color:#888;font-size:1rem">Your cart is empty.</p>
+      <div style="text-align:center;padding:60px 0">
+        <p style="font-size:1.1rem;color:var(--gray-400);margin-bottom:24px">Your cart is empty.</p>
+        <a href="/" class="btn btn--primary">Continue Shopping</a>
+      </div>
     {% else %}
-      <a href="/checkout" style="display:block;background:#0d2e0d;color:#fff;padding:16px 24px;border-radius:12px;font-weight:800;font-size:1rem;margin-top:24px">Proceed to Checkout</a>
+      <form action="{{ routes.cart_url }}" method="post">
+
+        {% for item in cart.items %}
+          <div style="display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--gray-100);align-items:center">
+            <img src="{{ item.image | img_url: '100x100' }}" alt="{{ item.title | escape }}" style="width:80px;height:80px;object-fit:cover;border-radius:8px">
+            <div style="flex:1">
+              <div style="font-weight:700;color:var(--navy);margin-bottom:4px">{{ item.product.title }}</div>
+              {% unless item.variant.title == 'Default Title' %}
+                <div style="font-size:0.875rem;color:var(--gray-400)">{{ item.variant.title }}</div>
+              {% endunless %}
+              <div style="font-weight:700;color:var(--orange);margin-top:4px">{{ item.final_line_price | money }}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0" style="width:48px;text-align:center;border:1px solid var(--gray-200);border-radius:6px;padding:6px;font-size:0.9rem">
+              <a href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity=0" style="color:var(--gray-400);font-size:0.8rem">Remove</a>
+            </div>
+          </div>
+        {% endfor %}
+
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-top:2px solid var(--gray-200);margin-top:8px">
+          <div>
+            <div style="font-size:0.875rem;color:var(--gray-400)">Subtotal</div>
+            <div style="font-size:1.5rem;font-weight:900;color:var(--navy)">{{ cart.total_price | money }}</div>
+          </div>
+          <div style="display:flex;gap:12px">
+            <button type="submit" name="update" class="btn btn--secondary" style="color:var(--navy);border-color:var(--gray-200)">Update Cart</button>
+            <a href="{{ routes.checkout }}" class="btn btn--primary btn--xl">
+              🔒 Checkout Securely
+            </a>
+          </div>
+        </div>
+
+        <div class="trust-badges" style="justify-content:center">
+          <div class="trust-badge"><span class="trust-badge__icon">🔒</span>Secure Checkout</div>
+          <div class="trust-badge"><span class="trust-badge__icon">🚚</span>Free Shipping</div>
+          <div class="trust-badge"><span class="trust-badge__icon">💰</span>30-Day Guarantee</div>
+        </div>
+
+      </form>
     {% endif %}
   </div>
-</div>
+</section>
