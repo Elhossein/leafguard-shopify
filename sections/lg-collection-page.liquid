@@ -1,58 +1,94 @@
-<section class="lgc-page">
-  <div class="lgc-inner">
-    <h1 class="lgc-title">{{ collection.title }}</h1>
-    {%- if collection.description != blank -%}
-      <p class="lgc-desc">{{ collection.description }}</p>
-    {%- endif -%}
-    <div class="lgc-grid">
-      {%- for product in collection.products -%}
-        {%- assign v = product.selected_or_first_available_variant -%}
-        <a href="{{ product.url }}" class="lgc-card">
-          <div class="lgc-card-img-wrap">
-            {%- if product.featured_image -%}
-              <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" class="lgc-card-img" loading="lazy" />
-            {%- else -%}
-              <div class="lgc-card-img-placeholder"></div>
-            {%- endif -%}
-          </div>
-          <div class="lgc-card-body">
-            <h2 class="lgc-card-title">{{ product.title }}</h2>
-            <div class="lgc-card-price">
-              <span>{{ v.price | money }}</span>
-              {%- if v.compare_at_price > v.price -%}
-                <s>{{ v.compare_at_price | money }}</s>
-              {%- endif -%}
-            </div>
-            <span class="lgc-card-cta">View Product →</span>
-          </div>
-        </a>
-      {%- else -%}
-        <p style="color:#888;grid-column:1/-1;text-align:center;padding:48px">No products in this collection yet.</p>
-      {%- endfor -%}
+<section class="before-after section">
+  <div class="container">
+    <div class="text-center">
+      <span class="section__eyebrow">See the Difference</span>
+      <h2 class="section__title">
+        Feel the Difference Instantly 🌡️
+      </h2>
+      <p style="color:rgba(255,255,255,0.6);font-size:1rem;max-width:520px;margin:0 auto 48px;line-height:1.7">
+        Thousands of homeowners have already made the switch. Here's exactly what changes.
+      </p>
     </div>
+
+    <div class="before-after__grid">
+
+      <!-- BEFORE -->
+      <div class="ba-card ba-card--before" data-animate>
+        <div class="ba-card__header">
+          ❌ Before AirGuard™
+        </div>
+        <div class="ba-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80"
+            alt="Drafty cold window before sealing"
+            loading="lazy"
+            width="600"
+            height="450"
+          >
+        </div>
+        <ul class="ba-card__list">
+          <li class="ba-list-item"><span>❌</span> Cold air leaks through gaps</li>
+          <li class="ba-list-item"><span>❌</span> Curtains blowing from drafts</li>
+          <li class="ba-list-item"><span>❌</span> High heating &amp; cooling bills</li>
+          <li class="ba-list-item"><span>❌</span> Uncomfortable, cold rooms</li>
+          <li class="ba-list-item"><span>❌</span> Thermostat cranked but still cold</li>
+        </ul>
+      </div>
+
+      <!-- VS Badge -->
+      <div class="ba-vs">
+        <div class="ba-vs__badge">VS</div>
+      </div>
+
+      <!-- AFTER -->
+      <div class="ba-card ba-card--after" data-animate>
+        <div class="ba-card__header">
+          ✅ After AirGuard™
+        </div>
+        <div class="ba-card__image">
+          <img
+            src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=600&q=80"
+            alt="Warm cozy room after sealing windows"
+            loading="lazy"
+            width="600"
+            height="450"
+          >
+        </div>
+        <ul class="ba-card__list">
+          <li class="ba-list-item"><span>✅</span> Airtight seal — zero drafts</li>
+          <li class="ba-list-item"><span>✅</span> Still air, warm &amp; comfortable</li>
+          <li class="ba-list-item"><span>✅</span> Up to 30% lower energy bills</li>
+          <li class="ba-list-item"><span>✅</span> Every room perfectly heated</li>
+          <li class="ba-list-item"><span>✅</span> Thermostat lower, savings higher</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Money Angle CTA -->
+    <div
+      style="margin-top:48px;background:rgba(255,107,26,0.1);border:1.5px solid rgba(255,107,26,0.3);border-radius:16px;padding:32px;text-align:center"
+      data-animate
+    >
+      <p style="font-size:1.35rem;font-weight:900;color:var(--white);margin-bottom:8px">
+        💸 This Gap Is Costing You $$$
+      </p>
+      <p style="color:rgba(255,255,255,0.65);font-size:1rem;margin-bottom:24px;line-height:1.7">
+        The average US household loses <strong style="color:var(--orange)">$400+/year</strong> through drafts and air leaks.
+        AirGuard™ pays for itself in the <strong style="color:var(--orange)">first week</strong>.
+      </p>
+      <a href="#product-hero" class="btn btn--primary btn--xl">
+        🛒 SEAL IT NOW — 50% OFF TODAY
+      </a>
+    </div>
+
   </div>
 </section>
-<style>
-.lgc-page { padding: 56px 24px 80px; background: #f4faf4; min-height: 60vh; }
-.lgc-inner { max-width: 1080px; margin: 0 auto; }
-.lgc-title { font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 900; color: #0a1f0a; margin-bottom: 10px; letter-spacing: -0.03em; }
-.lgc-desc { font-size: 0.95rem; color: #666; margin-bottom: 40px; max-width: 560px; line-height: 1.65; }
-.lgc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-@media (max-width: 780px) { .lgc-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .lgc-grid { grid-template-columns: 1fr; } }
-.lgc-card { display: block; background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid #e0ecd8; transition: box-shadow 0.2s, transform 0.2s; }
-.lgc-card:hover { box-shadow: 0 8px 32px rgba(13,46,13,0.12); transform: translateY(-4px); }
-.lgc-card-img-wrap { aspect-ratio: 1/1; overflow: hidden; background: #f4faf4; }
-.lgc-card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-.lgc-card:hover .lgc-card-img { transform: scale(1.04); }
-.lgc-card-img-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #e0ecd8, #c8e6c8); }
-.lgc-card-body { padding: 18px 20px 22px; }
-.lgc-card-title { font-size: 0.95rem; font-weight: 700; color: #0a1f0a; margin-bottom: 8px; line-height: 1.3; }
-.lgc-card-price { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
-.lgc-card-price span { font-size: 1rem; font-weight: 800; color: #0d2e0d; }
-.lgc-card-price s { font-size: 0.85rem; color: #aaa; }
-.lgc-card-cta { font-size: 0.82rem; font-weight: 700; color: #2ea843; }
-</style>
+
 {% schema %}
-{ "name": "LeafGuard Collection", "settings": [] }
+{
+  "name": "Before & After",
+  "settings": [],
+  "presets": [{"name": "Before & After"}]
+}
 {% endschema %}
