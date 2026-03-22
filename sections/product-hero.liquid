@@ -1,0 +1,205 @@
+{% assign product_image_1 = 'https://i5.walmartimages.com/seo/Duck-Max-Strength-Extreme-Weather-1-88-in-x-20-yd-Clear-Tape_e5b60dc3-d78f-484f-86be-1a4f6bc5daa6.ffe0a6cd3ae4ca6e27b4b59c0af073e9.jpeg' %}
+{% assign product_image_2 = 'https://i5.walmartimages.com/asr/2ab71a98-e7eb-488c-84c7-a3fd2a5c49e9.e09d6a234cd3f06e74ab1ae0d3dcff5d.jpeg' %}
+{% assign product_image_3 = 'https://i5.walmartimages.com/asr/54df5cb4-50d1-4d55-848c-db8c16b78d7a.37b3ebee59e9ddfed5e9dc70f29e4594.jpeg' %}
+{% assign product_image_4 = 'https://i5.walmartimages.com/asr/19e3a49c-5bfe-4697-8b7a-3c3bcac23773.b5dc2a64d4b8ab7e17b45e7d2f63eae5.jpeg' %}
+
+<section class="product-hero" id="product-hero">
+  <div class="container">
+    <div class="product-hero__inner">
+
+      <!-- LEFT: Images -->
+      <div class="product-hero__images">
+        <div class="product-hero__main-img">
+          {% if product.featured_image %}
+            <img
+              src="{{ product.featured_image | img_url: '800x800' }}"
+              alt="{{ product.title | escape }}"
+              width="800"
+              height="800"
+            >
+          {% else %}
+            <img
+              src="{{ product_image_1 }}"
+              alt="AirGuard Tape – Weather Seal"
+              width="800"
+              height="800"
+              loading="eager"
+            >
+          {% endif %}
+        </div>
+
+        <div class="product-hero__thumbnails">
+          {% if product.images.size > 1 %}
+            {% for image in product.images limit: 4 %}
+              <div class="thumb-img {% if forloop.first %}active{% endif %}">
+                <img src="{{ image | img_url: '200x200' }}" alt="{{ image.alt | escape }}" loading="lazy">
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="thumb-img active">
+              <img src="{{ product_image_1 }}" alt="AirGuard Tape Front" loading="lazy">
+            </div>
+            <div class="thumb-img">
+              <img src="{{ product_image_2 }}" alt="AirGuard Tape Application" loading="lazy">
+            </div>
+            <div class="thumb-img">
+              <img src="{{ product_image_3 }}" alt="AirGuard Tape Window" loading="lazy">
+            </div>
+            <div class="thumb-img">
+              <img src="{{ product_image_4 }}" alt="AirGuard Tape Detail" loading="lazy">
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- RIGHT: Info -->
+      <div class="product-hero__info">
+
+        <div class="product-hero__badge-row">
+          <span class="product-badge">❄️ WINTER SALE</span>
+          <span class="product-badge" style="color:#22c55e;border-color:rgba(34,197,94,0.4);background:rgba(34,197,94,0.1);">✅ IN STOCK</span>
+        </div>
+
+        <div class="stars-row" style="margin-bottom:12px">
+          <span class="stars">★★★★★</span>
+          <span class="review-count" style="color:rgba(255,255,255,0.55)">4.8 · 2,347 Reviews</span>
+        </div>
+
+        <h1 class="product-hero__title">
+          Stop Cold Air Leaks<br>
+          <span>in Seconds ❄️</span>
+        </h1>
+
+        <p class="product-hero__tagline">
+          {{ section.settings.tagline | default: 'Seal your windows instantly and keep your home warm — without expensive repairs.' }}
+        </p>
+
+        <ul class="product-hero__bullets">
+          <li class="product-hero__bullet">Blocks cold drafts &amp; air leaks instantly</li>
+          <li class="product-hero__bullet">Saves up to 30% on heating bills</li>
+          <li class="product-hero__bullet">Easy peel &amp; stick — no tools needed</li>
+          <li class="product-hero__bullet">Works on any window, door, or gap</li>
+          <li class="product-hero__bullet">UV resistant &amp; fully weather-proof</li>
+        </ul>
+
+        <!-- Pack Options -->
+        <div class="pack-options">
+          <div class="pack-options__label">Choose Your Pack:</div>
+          <div class="pack-options__grid">
+            {% if product.variants.size > 1 %}
+              {% for variant in product.variants %}
+                <button
+                  class="pack-option {% if forloop.first %}active{% endif %}"
+                  data-variant-id="{{ variant.id }}"
+                  data-price="{{ variant.price | money_without_currency }}"
+                  data-compare-price="{{ variant.compare_at_price | money_without_currency }}"
+                >
+                  {{ variant.title }}
+                  {% if variant.compare_at_price > variant.price %}
+                    <span class="pack-option__save">Save {{ variant.compare_at_price | minus: variant.price | money }}</span>
+                  {% endif %}
+                </button>
+              {% endfor %}
+            {% else %}
+              <button class="pack-option active" data-variant-id="{{ product.first_available_variant.id }}" data-price="14.99" data-compare-price="29.99">
+                1 Roll — Best Seller
+                <span class="pack-option__save">Save $15.00</span>
+              </button>
+              <button class="pack-option" data-variant-id="{{ product.first_available_variant.id }}" data-price="24.99" data-compare-price="59.99">
+                2 Rolls — Most Value
+                <span class="pack-option__save">Save $35.00</span>
+              </button>
+              <button class="pack-option" data-variant-id="{{ product.first_available_variant.id }}" data-price="34.99" data-compare-price="89.99">
+                3 Rolls — Best Deal 🔥
+                <span class="pack-option__save">Save $55.00</span>
+              </button>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="product-hero__price-row">
+          <span class="product-hero__price-sale">
+            {% if product.selected_or_first_available_variant.price %}
+              {{ product.selected_or_first_available_variant.price | money }}
+            {% else %}
+              $14.99
+            {% endif %}
+          </span>
+          <span class="product-hero__price-compare">
+            {% if product.selected_or_first_available_variant.compare_at_price %}
+              {{ product.selected_or_first_available_variant.compare_at_price | money }}
+            {% else %}
+              $29.99
+            {% endif %}
+          </span>
+          <span class="product-hero__savings">50% OFF</span>
+        </div>
+        <p style="font-size:0.8rem;color:rgba(255,255,255,0.45);margin-bottom:16px">You save $15.00 today</p>
+
+        <!-- Quantity -->
+        <div class="product-hero__qty-row">
+          <span class="qty-label">Qty:</span>
+          <div class="qty-selector">
+            <button class="qty-btn" data-action="minus">−</button>
+            <input type="number" class="qty-input" value="1" min="1" max="99" readonly>
+            <button class="qty-btn" data-action="plus">+</button>
+          </div>
+        </div>
+
+        <!-- ATC Button -->
+        <form method="post" action="{{ routes.cart_add_url }}">
+          <input type="hidden" name="id" id="variant-id-input" value="{{ product.first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            class="btn btn--primary product-hero__atc-btn btn--pulse"
+            id="main-add-to-cart"
+            data-add-to-cart
+            data-variant-id="{{ product.first_available_variant.id }}"
+          >
+            🛒 GET YOURS NOW — 50% OFF
+          </button>
+        </form>
+
+        <p class="product-hero__sub-cta">⚡ Limited time offer — ends when stock runs out</p>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <span class="trust-badge__icon">🔒</span>
+            Secure Checkout
+          </div>
+          <div class="trust-badge">
+            <span class="trust-badge__icon">🚚</span>
+            Free Shipping
+          </div>
+          <div class="trust-badge">
+            <span class="trust-badge__icon">💰</span>
+            30-Day Guarantee
+          </div>
+          <div class="trust-badge">
+            <span class="trust-badge__icon">🇺🇸</span>
+            US Warehouse
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Seal your windows instantly and keep your home warm — without expensive repairs."
+    }
+  ],
+  "presets": [{"name": "Product Hero"}]
+}
+{% endschema %}
