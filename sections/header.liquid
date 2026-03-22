@@ -1,0 +1,39 @@
+<!-- Announcement Bar -->
+<div class="announcement-bar">
+  ❄️ WINTER SALE: <span>50% OFF</span> + FREE SHIPPING — Limited Stock Remaining!
+</div>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="header-inner">
+
+    <a href="{{ routes.root_url }}" class="header-logo">
+      <div class="header-logo__icon">🛡️</div>
+      <span class="header-logo__text">Air<span>Guard</span>™</span>
+    </a>
+
+    <nav class="header-nav">
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="#benefits">Benefits</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="cart-btn" id="cart-btn" aria-label="Open cart">
+        🛒
+        <span class="cart-count" style="display:none">0</span>
+      </button>
+      <button class="mobile-menu-btn" aria-label="Menu">☰</button>
+    </div>
+
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [],
+  "presets": [{"name": "Header"}]
+}
+{% endschema %}
