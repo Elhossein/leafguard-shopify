@@ -1,1 +1,41 @@
-{"general":{"shopify_challenge_instructions":"Please complete this challenge to continue","password":{"enter_store_password":"Enter store password","submit_password":"Enter","incorrect_password":"The password you entered is incorrect","powered_by_shopify_html":"This store will be powered by {{shopify}}"},"pagination":{"previous":"Previous","next":"Next","page":"Page"}}}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "password_page": {
+      "login_form_heading": "Enter store password",
+      "login_form_password_label": "Password",
+      "login_form_password_placeholder": "Your password",
+      "login_form_submit": "Enter",
+      "storefront_password_incorrect": "Wrong password. Please try again."
+    }
+  },
+  "layout": {
+    "cart": {
+      "title": "Cart"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Cart",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your Cart",
+      "empty": "Your cart is currently empty.",
+      "checkout": "Checkout",
+      "update": "Update Cart",
+      "subtotal": "Subtotal"
+    }
+  }
+}
