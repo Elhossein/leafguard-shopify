@@ -1,7 +1,70 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "lg-header":   { "type": "lg-header",   "settings": {} },
-    "lg-homepage": { "type": "lg-homepage", "settings": {} }
+    "product_hero": {
+      "type": "product-hero",
+      "settings": {}
+    },
+    "stats_bar": {
+      "type": "stats-bar",
+      "settings": {}
+    },
+    "problem_solution": {
+      "type": "problem-solution",
+      "settings": {}
+    },
+    "benefits": {
+      "type": "benefits",
+      "settings": {}
+    },
+    "how_it_works": {
+      "type": "how-it-works",
+      "settings": {}
+    },
+    "before_after": {
+      "type": "before-after",
+      "settings": {}
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": {}
+    },
+    "urgency": {
+      "type": "urgency",
+      "settings": {}
+    },
+    "offer": {
+      "type": "offer",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {}
+    },
+    "final_cta": {
+      "type": "final-cta",
+      "settings": {}
+    }
   },
-  "order": ["lg-header", "lg-homepage"]
+  "order": [
+    "product_hero",
+    "stats_bar",
+    "problem_solution",
+    "benefits",
+    "how_it_works",
+    "before_after",
+    "reviews",
+    "urgency",
+    "offer",
+    "faq",
+    "final_cta"
+  ]
 }
