@@ -1,0 +1,61 @@
+<section class="urgency-section">
+  <div class="container" style="position:relative;z-index:1">
+
+    <div class="urgency-badge">
+      🔴 LIVE · SELLING FAST
+    </div>
+
+    <h2 class="urgency-section__title">
+      Winter Sale Ending Soon ❄️
+    </h2>
+    <p class="urgency-section__sub">
+      Due to high demand, stock is extremely limited. <strong style="color:var(--orange-light)">73% already sold.</strong>
+    </p>
+
+    <!-- Countdown -->
+    <div class="countdown-row">
+      <div class="countdown-block">
+        <div class="countdown-block__num" id="countdown-hours">04</div>
+        <div class="countdown-block__label">Hours</div>
+      </div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-block">
+        <div class="countdown-block__num" id="countdown-minutes">37</div>
+        <div class="countdown-block__label">Minutes</div>
+      </div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-block">
+        <div class="countdown-block__num" id="countdown-seconds">22</div>
+        <div class="countdown-block__label">Seconds</div>
+      </div>
+    </div>
+
+    <!-- Stock bar -->
+    <div class="stock-bar">
+      <div class="stock-bar__label">
+        <span>Stock remaining</span>
+        <span style="color:var(--orange)">Only 37 left!</span>
+      </div>
+      <div class="stock-bar__track">
+        <div class="stock-bar__fill"></div>
+      </div>
+    </div>
+
+    <a href="#product-hero" class="btn btn--primary btn--xl btn--pulse">
+      🛒 GET YOURS NOW — 50% OFF
+    </a>
+
+    <p style="margin-top:16px;font-size:0.8rem;color:rgba(255,255,255,0.4)">
+      🔒 Secure checkout · Free shipping · 30-day guarantee
+    </p>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Urgency",
+  "settings": [],
+  "presets": [{"name": "Urgency"}]
+}
+{% endschema %}
