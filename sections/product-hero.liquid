@@ -1,6 +1,3 @@
-{%- assign section_product = all_products[section.settings.featured_product] -%}
-{%- if section_product == blank -%}{%- assign section_product = product -%}{%- endif -%}
-{%- assign default_variant = section_product.first_available_variant -%}
 <section class="product-hero" id="product-hero">
   <div class="container">
     <div class="product-hero__inner">
@@ -10,10 +7,10 @@
 
         <!-- Main Image -->
         <div class="product-hero__main-img">
-          {% if section_product.featured_image %}
+          {% if product.featured_image %}
             <img
-              src="{{ section_product.featured_image | image_url: width: 800 }}"
-              alt="{{ section_product.featured_image.alt | escape | default: section_product.title }}"
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | escape | default: product.title }}"
               width="800"
               height="800"
               loading="eager"
@@ -36,12 +33,12 @@
 
         <!-- Thumbnails -->
         <div class="product-hero__thumbnails">
-          {% if section_product.images.size > 0 %}
-            {% for image in section_product.images limit: 4 %}
+          {% if product.images.size > 0 %}
+            {% for image in product.images limit: 4 %}
               <div class="thumb-img {% if forloop.first %}active{% endif %}">
                 <img
                   src="{{ image | image_url: width: 200 }}"
-                  alt="{{ image.alt | escape | default: section_product.title }}"
+                  alt="{{ image.alt | escape | default: product.title }}"
                   loading="lazy"
                   width="200"
                   height="200"
@@ -49,6 +46,7 @@
               </div>
             {% endfor %}
           {% else %}
+            {% assign thumb_images = section.settings.image_thumb_1 | append: ',' | append: section.settings.image_thumb_2 | append: ',' | append: section.settings.image_thumb_3 | append: ',' | append: section.settings.image_thumb_4 %}
             {% assign thumb_slots = 'image_thumb_1,image_thumb_2,image_thumb_3,image_thumb_4' | split: ',' %}
             {% for slot in thumb_slots %}
               {% assign thumb_img = section.settings[slot] %}
@@ -113,10 +111,9 @@
         <div class="pack-options">
           <div class="pack-options__label">Choose Your Pack:</div>
           <div class="pack-options__grid">
-            {% if section_product.variants.size > 1 %}
-              {% for variant in section_product.variants %}
+            {% if product.variants.size > 1 %}
+              {% for variant in product.variants %}
                 <button
-                  type="button"
                   class="pack-option {% if forloop.first %}active{% endif %}"
                   data-variant-id="{{ variant.id }}"
                   data-price="{{ variant.price | money_without_currency }}"
@@ -129,15 +126,15 @@
                 </button>
               {% endfor %}
             {% else %}
-              <button type="button" class="pack-option active" data-variant-id="{{ default_variant.id }}" data-price="34.99" data-compare-price="69.99">
+              <button class="pack-option active" data-variant-id="{{ product.first_available_variant.id }}" data-price="34.99" data-compare-price="69.99">
                 1 Roll — Best Seller
                 <span class="pack-option__save">Save $35.00</span>
               </button>
-              <button type="button" class="pack-option" data-variant-id="{{ default_variant.id }}" data-price="59.99" data-compare-price="119.99">
+              <button class="pack-option" data-variant-id="{{ product.first_available_variant.id }}" data-price="59.99" data-compare-price="119.99">
                 2 Rolls — Most Value
                 <span class="pack-option__save">Save $60.00</span>
               </button>
-              <button type="button" class="pack-option" data-variant-id="{{ default_variant.id }}" data-price="84.99" data-compare-price="169.99">
+              <button class="pack-option" data-variant-id="{{ product.first_available_variant.id }}" data-price="84.99" data-compare-price="169.99">
                 3 Rolls — Best Deal 🔥
                 <span class="pack-option__save">Save $85.00</span>
               </button>
@@ -147,48 +144,44 @@
 
         <!-- Price -->
         <div class="product-hero__price-row">
-          <span class="product-hero__price-sale" id="hero-price-sale">
-            {% if default_variant.price %}
-              {{ default_variant.price | money }}
+          <span class="product-hero__price-sale">
+            {% if product.selected_or_first_available_variant.price %}
+              {{ product.selected_or_first_available_variant.price | money }}
             {% else %}
               $34.99
             {% endif %}
           </span>
-          <span class="product-hero__price-compare" id="hero-price-compare">
-            {% if default_variant.compare_at_price %}
-              {{ default_variant.compare_at_price | money }}
+          <span class="product-hero__price-compare">
+            {% if product.selected_or_first_available_variant.compare_at_price %}
+              {{ product.selected_or_first_available_variant.compare_at_price | money }}
             {% else %}
               $69.99
             {% endif %}
           </span>
-          <span class="product-hero__savings" id="hero-savings-pct">50% OFF</span>
+          <span class="product-hero__savings">50% OFF</span>
         </div>
-        <p id="hero-savings-text" style="font-size:0.8rem;color:rgba(255,255,255,0.45);margin-bottom:16px">You save $35.00 today</p>
+        <p style="font-size:0.8rem;color:rgba(255,255,255,0.45);margin-bottom:16px">You save $35.00 today</p>
 
-        <!--
-          Form posts directly to /cart/add.
-          return_to=/checkout tells Shopify to go straight to checkout after adding.
-          JS only updates the hidden inputs — no AJAX needed.
-        -->
-        <form method="post" action="/cart/add" id="product-hero-form">
-          <input type="hidden" name="id"        id="variant-id-field"  value="{{ default_variant.id }}">
-          <input type="hidden" name="quantity"  id="qty-field"         value="1">
-          <input type="hidden" name="return_to" value="/checkout">
-
-          <!-- Quantity -->
-          <div class="product-hero__qty-row">
-            <span class="qty-label">Qty:</span>
-            <div class="qty-selector">
-              <button type="button" class="qty-btn" data-action="minus">−</button>
-              <span class="qty-display" id="qty-display">1</span>
-              <button type="button" class="qty-btn" data-action="plus">+</button>
-            </div>
+        <!-- Quantity -->
+        <div class="product-hero__qty-row">
+          <span class="qty-label">Qty:</span>
+          <div class="qty-selector">
+            <button class="qty-btn" data-action="minus">−</button>
+            <input type="number" class="qty-input" value="1" min="1" max="99" readonly>
+            <button class="qty-btn" data-action="plus">+</button>
           </div>
+        </div>
 
+        <!-- ATC Button -->
+        <form method="post" action="{{ routes.cart_add_url }}">
+          <input type="hidden" name="id" id="variant-id-input" value="{{ product.first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
           <button
             type="submit"
             class="btn btn--primary product-hero__atc-btn btn--pulse"
             id="main-add-to-cart"
+            data-add-to-cart
+            data-variant-id="{{ product.first_available_variant.id }}"
           >
             🛒 GET YOURS NOW — 50% OFF
           </button>
@@ -221,60 +214,10 @@
   </div>
 </section>
 
-<script>
-(function () {
-  var variantField = document.getElementById('variant-id-field');
-  var qtyField     = document.getElementById('qty-field');
-  var qtyDisplay   = document.getElementById('qty-display');
-  var priceSale    = document.getElementById('hero-price-sale');
-  var priceCompare = document.getElementById('hero-price-compare');
-  var savingsPct   = document.getElementById('hero-savings-pct');
-  var savingsText  = document.getElementById('hero-savings-text');
-  var qty          = 1;
-
-  /* ── Pack option clicks ── */
-  document.querySelectorAll('.pack-option').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      document.querySelectorAll('.pack-option').forEach(function (b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-
-      var vid = btn.getAttribute('data-variant-id');
-      if (variantField && vid) variantField.value = vid;
-
-      var sale    = parseFloat(btn.getAttribute('data-price'))         || 0;
-      var compare = parseFloat(btn.getAttribute('data-compare-price')) || 0;
-      if (priceSale)    priceSale.textContent    = '$' + sale.toFixed(2);
-      if (priceCompare) priceCompare.textContent = compare > 0 ? '$' + compare.toFixed(2) : '';
-      if (compare > 0 && sale > 0) {
-        var pct     = Math.round((compare - sale) / compare * 100);
-        var saveAmt = (compare - sale).toFixed(2);
-        if (savingsPct)  savingsPct.textContent  = pct + '% OFF';
-        if (savingsText) savingsText.textContent = 'You save $' + saveAmt + ' today';
-      }
-    });
-  });
-
-  /* ── Qty +/- ── */
-  document.querySelectorAll('.qty-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      if (btn.getAttribute('data-action') === 'plus')  qty = Math.min(qty + 1, 99);
-      if (btn.getAttribute('data-action') === 'minus') qty = Math.max(qty - 1, 1);
-      if (qtyField)   qtyField.value       = qty;
-      if (qtyDisplay) qtyDisplay.textContent = qty;
-    });
-  });
-})();
-</script>
-
 {% schema %}
 {
   "name": "Product Hero",
   "settings": [
-    {
-      "type": "product",
-      "id": "featured_product",
-      "label": "Product"
-    },
     {
       "type": "text",
       "id": "tagline",
