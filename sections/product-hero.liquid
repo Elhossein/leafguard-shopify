@@ -105,19 +105,19 @@
             {% else %}
               <button type="button" class="pack-option active"
                 data-variant-id="{{ default_variant.id }}"
-                data-price="34.99" data-compare-price="69.99">
+                data-price="34.99" data-compare-price="69.99" data-qty="1">
                 1 Roll — Best Seller
                 <span class="pack-option__save">Save $35.00</span>
               </button>
               <button type="button" class="pack-option"
                 data-variant-id="{{ default_variant.id }}"
-                data-price="59.99" data-compare-price="119.99">
+                data-price="59.99" data-compare-price="119.99" data-qty="2">
                 2 Rolls — Most Value
                 <span class="pack-option__save">Save $60.00</span>
               </button>
               <button type="button" class="pack-option"
                 data-variant-id="{{ default_variant.id }}"
-                data-price="84.99" data-compare-price="169.99">
+                data-price="84.99" data-compare-price="169.99" data-qty="3">
                 3 Rolls — Best Deal 🔥
                 <span class="pack-option__save">Save $85.00</span>
               </button>
@@ -192,6 +192,13 @@
       btn.classList.add('active');
 
       activeVid = btn.getAttribute('data-variant-id') || activeVid;
+
+      /* update quantity to match the pack */
+      var packQty = parseInt(btn.getAttribute('data-qty'), 10);
+      if (packQty > 0) {
+        qty = packQty;
+        if (qtyDisplay) qtyDisplay.textContent = qty;
+      }
 
       var sale    = parseFloat(btn.getAttribute('data-price'))         || 0;
       var compare = parseFloat(btn.getAttribute('data-compare-price')) || 0;
