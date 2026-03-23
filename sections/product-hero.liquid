@@ -126,17 +126,17 @@
                 </button>
               {% endfor %}
             {% else %}
-              <button class="pack-option active" data-variant-id="{{ product.first_available_variant.id }}" data-price="14.99" data-compare-price="29.99">
+              <button class="pack-option active" data-variant-id="{{ product.first_available_variant.id }}" data-price="34.99" data-compare-price="69.99">
                 1 Roll — Best Seller
-                <span class="pack-option__save">Save $15.00</span>
-              </button>
-              <button class="pack-option" data-variant-id="{{ product.first_available_variant.id }}" data-price="24.99" data-compare-price="59.99">
-                2 Rolls — Most Value
                 <span class="pack-option__save">Save $35.00</span>
               </button>
-              <button class="pack-option" data-variant-id="{{ product.first_available_variant.id }}" data-price="34.99" data-compare-price="89.99">
+              <button class="pack-option" data-variant-id="{{ product.first_available_variant.id }}" data-price="59.99" data-compare-price="119.99">
+                2 Rolls — Most Value
+                <span class="pack-option__save">Save $60.00</span>
+              </button>
+              <button class="pack-option" data-variant-id="{{ product.first_available_variant.id }}" data-price="84.99" data-compare-price="169.99">
                 3 Rolls — Best Deal 🔥
-                <span class="pack-option__save">Save $55.00</span>
+                <span class="pack-option__save">Save $85.00</span>
               </button>
             {% endif %}
           </div>
@@ -148,19 +148,19 @@
             {% if product.selected_or_first_available_variant.price %}
               {{ product.selected_or_first_available_variant.price | money }}
             {% else %}
-              $14.99
+              $34.99
             {% endif %}
           </span>
           <span class="product-hero__price-compare">
             {% if product.selected_or_first_available_variant.compare_at_price %}
               {{ product.selected_or_first_available_variant.compare_at_price | money }}
             {% else %}
-              $29.99
+              $69.99
             {% endif %}
           </span>
           <span class="product-hero__savings">50% OFF</span>
         </div>
-        <p style="font-size:0.8rem;color:rgba(255,255,255,0.45);margin-bottom:16px">You save $15.00 today</p>
+        <p style="font-size:0.8rem;color:rgba(255,255,255,0.45);margin-bottom:16px">You save $35.00 today</p>
 
         <!-- Quantity -->
         <div class="product-hero__qty-row">
