@@ -1,5 +1,6 @@
 {%- assign section_product = all_products[section.settings.featured_product] -%}
 {%- if section_product == blank -%}{%- assign section_product = product -%}{%- endif -%}
+{%- if section_product == blank -%}{%- assign section_product = collections.all.products.first -%}{%- endif -%}
 {%- assign default_variant = section_product.first_available_variant -%}
 
 <section class="product-hero" id="product-hero"
