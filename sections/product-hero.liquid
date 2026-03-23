@@ -1,5 +1,6 @@
 {%- assign section_product = all_products[section.settings.featured_product] -%}
 {%- if section_product == blank -%}{%- assign section_product = product -%}{%- endif -%}
+{%- assign default_variant = section_product.first_available_variant -%}
 <section class="product-hero" id="product-hero">
   <div class="container">
     <div class="product-hero__inner">
@@ -48,7 +49,6 @@
               </div>
             {% endfor %}
           {% else %}
-            {% assign thumb_images = section.settings.image_thumb_1 | append: ',' | append: section.settings.image_thumb_2 | append: ',' | append: section.settings.image_thumb_3 | append: ',' | append: section.settings.image_thumb_4 %}
             {% assign thumb_slots = 'image_thumb_1,image_thumb_2,image_thumb_3,image_thumb_4' | split: ',' %}
             {% for slot in thumb_slots %}
               {% assign thumb_img = section.settings[slot] %}
@@ -116,6 +116,7 @@
             {% if section_product.variants.size > 1 %}
               {% for variant in section_product.variants %}
                 <button
+                  type="button"
                   class="pack-option {% if forloop.first %}active{% endif %}"
                   data-variant-id="{{ variant.id }}"
                   data-price="{{ variant.price | money_without_currency }}"
@@ -128,15 +129,15 @@
                 </button>
               {% endfor %}
             {% else %}
-              <button class="pack-option active" data-variant-id="{{ section_product.first_available_variant.id }}" data-price="34.99" data-compare-price="69.99">
+              <button type="button" class="pack-option active" data-variant-id="{{ default_variant.id }}" data-price="34.99" data-compare-price="69.99">
                 1 Roll — Best Seller
                 <span class="pack-option__save">Save $35.00</span>
               </button>
-              <button class="pack-option" data-variant-id="{{ section_product.first_available_variant.id }}" data-price="59.99" data-compare-price="119.99">
+              <button type="button" class="pack-option" data-variant-id="{{ default_variant.id }}" data-price="59.99" data-compare-price="119.99">
                 2 Rolls — Most Value
                 <span class="pack-option__save">Save $60.00</span>
               </button>
-              <button class="pack-option" data-variant-id="{{ section_product.first_available_variant.id }}" data-price="84.99" data-compare-price="169.99">
+              <button type="button" class="pack-option" data-variant-id="{{ default_variant.id }}" data-price="84.99" data-compare-price="169.99">
                 3 Rolls — Best Deal 🔥
                 <span class="pack-option__save">Save $85.00</span>
               </button>
@@ -147,15 +148,15 @@
         <!-- Price -->
         <div class="product-hero__price-row">
           <span class="product-hero__price-sale" id="hero-price-sale">
-            {% if section_product.selected_or_first_available_variant.price %}
-              {{ section_product.selected_or_first_available_variant.price | money }}
+            {% if default_variant.price %}
+              {{ default_variant.price | money }}
             {% else %}
               $34.99
             {% endif %}
           </span>
           <span class="product-hero__price-compare" id="hero-price-compare">
-            {% if section_product.selected_or_first_available_variant.compare_at_price %}
-              {{ section_product.selected_or_first_available_variant.compare_at_price | money }}
+            {% if default_variant.compare_at_price %}
+              {{ default_variant.compare_at_price | money }}
             {% else %}
               $69.99
             {% endif %}
@@ -164,21 +165,28 @@
         </div>
         <p id="hero-savings-text" style="font-size:0.8rem;color:rgba(255,255,255,0.45);margin-bottom:16px">You save $35.00 today</p>
 
-        <!-- Quantity + ATC (single form so qty stays in sync) -->
-        <form id="product-hero-form" onsubmit="return false;">
-          <input type="hidden" name="id" id="variant-id-input" value="{{ section_product.first_available_variant.id }}">
+        <!--
+          Form posts directly to /cart/add.
+          return_to=/checkout tells Shopify to go straight to checkout after adding.
+          JS only updates the hidden inputs — no AJAX needed.
+        -->
+        <form method="post" action="/cart/add" id="product-hero-form">
+          <input type="hidden" name="id"        id="variant-id-field"  value="{{ default_variant.id }}">
+          <input type="hidden" name="quantity"  id="qty-field"         value="1">
+          <input type="hidden" name="return_to" value="/checkout">
 
+          <!-- Quantity -->
           <div class="product-hero__qty-row">
             <span class="qty-label">Qty:</span>
             <div class="qty-selector">
               <button type="button" class="qty-btn" data-action="minus">−</button>
-              <input type="number" class="qty-input" id="qty-input" name="quantity" value="1" min="1" max="99" readonly>
+              <span class="qty-display" id="qty-display">1</span>
               <button type="button" class="qty-btn" data-action="plus">+</button>
             </div>
           </div>
 
           <button
-            type="button"
+            type="submit"
             class="btn btn--primary product-hero__atc-btn btn--pulse"
             id="main-add-to-cart"
           >
@@ -215,33 +223,28 @@
 
 <script>
 (function () {
-  /* ── Element references ── */
-  var variantInput  = document.getElementById('variant-id-input');
-  var qtyInput      = document.getElementById('qty-input');
-  var priceSale     = document.getElementById('hero-price-sale');
-  var priceCompare  = document.getElementById('hero-price-compare');
-  var savingsPct    = document.getElementById('hero-savings-pct');
-  var savingsText   = document.getElementById('hero-savings-text');
-  var atcBtn        = document.getElementById('main-add-to-cart');
+  var variantField = document.getElementById('variant-id-field');
+  var qtyField     = document.getElementById('qty-field');
+  var qtyDisplay   = document.getElementById('qty-display');
+  var priceSale    = document.getElementById('hero-price-sale');
+  var priceCompare = document.getElementById('hero-price-compare');
+  var savingsPct   = document.getElementById('hero-savings-pct');
+  var savingsText  = document.getElementById('hero-savings-text');
+  var qty          = 1;
 
-  /* ── Pack option clicks → update variant ID + prices ── */
+  /* ── Pack option clicks ── */
   document.querySelectorAll('.pack-option').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      /* active state */
       document.querySelectorAll('.pack-option').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
 
-      /* update hidden variant input */
       var vid = btn.getAttribute('data-variant-id');
-      if (variantInput && vid) variantInput.value = vid;
+      if (variantField && vid) variantField.value = vid;
 
-      /* update price display */
-      var sale    = parseFloat(btn.getAttribute('data-price'))        || 0;
+      var sale    = parseFloat(btn.getAttribute('data-price'))         || 0;
       var compare = parseFloat(btn.getAttribute('data-compare-price')) || 0;
-
       if (priceSale)    priceSale.textContent    = '$' + sale.toFixed(2);
       if (priceCompare) priceCompare.textContent = compare > 0 ? '$' + compare.toFixed(2) : '';
-
       if (compare > 0 && sale > 0) {
         var pct     = Math.round((compare - sale) / compare * 100);
         var saveAmt = (compare - sale).toFixed(2);
@@ -251,57 +254,15 @@
     });
   });
 
-  /* ── Qty +/- buttons ── */
+  /* ── Qty +/- ── */
   document.querySelectorAll('.qty-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      if (!qtyInput) return;
-      var val = parseInt(qtyInput.value, 10) || 1;
-      if (btn.getAttribute('data-action') === 'plus')  val = Math.min(val + 1, 99);
-      if (btn.getAttribute('data-action') === 'minus') val = Math.max(val - 1, 1);
-      qtyInput.value = val;
+      if (btn.getAttribute('data-action') === 'plus')  qty = Math.min(qty + 1, 99);
+      if (btn.getAttribute('data-action') === 'minus') qty = Math.max(qty - 1, 1);
+      if (qtyField)   qtyField.value       = qty;
+      if (qtyDisplay) qtyDisplay.textContent = qty;
     });
   });
-
-  /* ── Buy button → AJAX add to cart then go straight to checkout ── */
-  if (atcBtn) {
-    atcBtn.addEventListener('click', async function () {
-      var vid = variantInput ? variantInput.value : '';
-      var qty = qtyInput ? parseInt(qtyInput.value, 10) : 1;
-
-      if (!vid || vid === 'null' || vid === '') {
-        alert('Please select a pack option first.');
-        return;
-      }
-
-      var originalHTML = atcBtn.innerHTML;
-      atcBtn.disabled  = true;
-      atcBtn.textContent = 'Adding to cart…';
-
-      try {
-        /* clear cart first so customer only checks out with this item */
-        await fetch('/cart/clear.js', { method: 'POST' });
-
-        var res = await fetch('/cart/add.js', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body:    JSON.stringify({ id: parseInt(vid, 10), quantity: qty })
-        });
-
-        if (res.ok) {
-          window.location.href = '/checkout';
-        } else {
-          var err = await res.json().catch(function () { return {}; });
-          alert(err.description || 'Could not add to cart. Please try again.');
-          atcBtn.disabled  = false;
-          atcBtn.innerHTML = originalHTML;
-        }
-      } catch (e) {
-        alert('Network error — please check your connection and try again.');
-        atcBtn.disabled  = false;
-        atcBtn.innerHTML = originalHTML;
-      }
-    });
-  }
 })();
 </script>
 
