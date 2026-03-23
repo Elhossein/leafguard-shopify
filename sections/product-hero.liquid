@@ -1,55 +1,80 @@
-{% assign product_image_1 = 'https://i5.walmartimages.com/seo/Duck-Max-Strength-Extreme-Weather-1-88-in-x-20-yd-Clear-Tape_e5b60dc3-d78f-484f-86be-1a4f6bc5daa6.ffe0a6cd3ae4ca6e27b4b59c0af073e9.jpeg' %}
-{% assign product_image_2 = 'https://i5.walmartimages.com/asr/2ab71a98-e7eb-488c-84c7-a3fd2a5c49e9.e09d6a234cd3f06e74ab1ae0d3dcff5d.jpeg' %}
-{% assign product_image_3 = 'https://i5.walmartimages.com/asr/54df5cb4-50d1-4d55-848c-db8c16b78d7a.37b3ebee59e9ddfed5e9dc70f29e4594.jpeg' %}
-{% assign product_image_4 = 'https://i5.walmartimages.com/asr/19e3a49c-5bfe-4697-8b7a-3c3bcac23773.b5dc2a64d4b8ab7e17b45e7d2f63eae5.jpeg' %}
-
 <section class="product-hero" id="product-hero">
   <div class="container">
     <div class="product-hero__inner">
 
       <!-- LEFT: Images -->
       <div class="product-hero__images">
+
+        <!-- Main Image -->
         <div class="product-hero__main-img">
           {% if product.featured_image %}
             <img
-              src="{{ product.featured_image | img_url: '800x800' }}"
-              alt="{{ product.title | escape }}"
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | escape | default: product.title }}"
               width="800"
               height="800"
+              loading="eager"
             >
-          {% else %}
+          {% elsif section.settings.image_main %}
             <img
-              src="{{ product_image_1 }}"
+              src="{{ section.settings.image_main | image_url: width: 800 }}"
               alt="AirGuard Tape – Weather Seal"
               width="800"
               height="800"
               loading="eager"
             >
+          {% else %}
+            <div style="display:flex;align-items:center;justify-content:center;height:100%;min-height:400px;background:rgba(255,255,255,0.05);border-radius:16px;flex-direction:column;gap:12px">
+              <span style="font-size:4rem">🛡️</span>
+              <span style="color:rgba(255,255,255,0.4);font-size:0.875rem;text-align:center;padding:0 16px">Add images to your product<br>or upload below in the customizer</span>
+            </div>
           {% endif %}
         </div>
 
+        <!-- Thumbnails -->
         <div class="product-hero__thumbnails">
-          {% if product.images.size > 1 %}
+          {% if product.images.size > 0 %}
             {% for image in product.images limit: 4 %}
               <div class="thumb-img {% if forloop.first %}active{% endif %}">
-                <img src="{{ image | img_url: '200x200' }}" alt="{{ image.alt | escape }}" loading="lazy">
+                <img
+                  src="{{ image | image_url: width: 200 }}"
+                  alt="{{ image.alt | escape | default: product.title }}"
+                  loading="lazy"
+                  width="200"
+                  height="200"
+                >
               </div>
             {% endfor %}
           {% else %}
-            <div class="thumb-img active">
-              <img src="{{ product_image_1 }}" alt="AirGuard Tape Front" loading="lazy">
-            </div>
-            <div class="thumb-img">
-              <img src="{{ product_image_2 }}" alt="AirGuard Tape Application" loading="lazy">
-            </div>
-            <div class="thumb-img">
-              <img src="{{ product_image_3 }}" alt="AirGuard Tape Window" loading="lazy">
-            </div>
-            <div class="thumb-img">
-              <img src="{{ product_image_4 }}" alt="AirGuard Tape Detail" loading="lazy">
-            </div>
+            {% assign thumb_images = section.settings.image_thumb_1 | append: ',' | append: section.settings.image_thumb_2 | append: ',' | append: section.settings.image_thumb_3 | append: ',' | append: section.settings.image_thumb_4 %}
+            {% assign thumb_slots = 'image_thumb_1,image_thumb_2,image_thumb_3,image_thumb_4' | split: ',' %}
+            {% for slot in thumb_slots %}
+              {% assign thumb_img = section.settings[slot] %}
+              <div class="thumb-img {% if forloop.first %}active{% endif %}">
+                {% if thumb_img %}
+                  <img
+                    src="{{ thumb_img | image_url: width: 200 }}"
+                    alt="AirGuard Tape"
+                    loading="lazy"
+                    width="200"
+                    height="200"
+                  >
+                {% elsif section.settings.image_main %}
+                  <img
+                    src="{{ section.settings.image_main | image_url: width: 200 }}"
+                    alt="AirGuard Tape"
+                    loading="lazy"
+                    width="200"
+                    height="200"
+                  >
+                {% else %}
+                  <div style="width:100%;height:100%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:1.4rem;border-radius:8px">🛡️</div>
+                {% endif %}
+              </div>
+            {% endfor %}
           {% endif %}
         </div>
+
       </div>
 
       <!-- RIGHT: Info -->
@@ -198,6 +223,35 @@
       "id": "tagline",
       "label": "Tagline",
       "default": "Seal your windows instantly and keep your home warm — without expensive repairs."
+    },
+    {
+      "type": "header",
+      "content": "Fallback Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_main",
+      "label": "Main Product Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_thumb_1",
+      "label": "Thumbnail 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_thumb_2",
+      "label": "Thumbnail 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_thumb_3",
+      "label": "Thumbnail 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_thumb_4",
+      "label": "Thumbnail 4"
     }
   ],
   "presets": [{"name": "Product Hero"}]
